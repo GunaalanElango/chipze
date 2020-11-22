@@ -1,0 +1,52 @@
+form {
+  display: grid;
+  grid-template-columns: repeat(1, 1000px);
+  justify-content: center;
+  margin: 10px auto;
+}
+
+.form-heading {
+  justify-self: center;
+}
+
+#product-name input {
+  width: 100%;
+}
+
+#product-desc input,
+#product-spec input {
+  margin: 5px 0;
+}
+
+#product-desc textarea,
+#product-spec textarea {
+  width: 100% !important;
+  height: 100px !important;
+}
+
+.form-group input {
+  width: 100%;
+}
+
+#add-spec-btn,
+#add-desc-btn,
+#add-img-btn,
+#add-key-btn,
+button[type*="submit"] {
+  border: 1px solid #175a5c;
+  border-radius: 2px;
+  padding: 5px 10px;
+  color: #175a5c;
+  background-color: white;
+  width: 25%;
+  text-align: center;
+}
+
+#add-spec-btn:hover,
+#add-desc-btn:hover,
+#add-img-btn:hover,
+#add-key-btn:hover,
+button[type*="submit"]:hover {
+  background-color: #175a5c;
+  color: white;
+}
