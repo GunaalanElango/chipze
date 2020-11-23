@@ -84,9 +84,33 @@ Product.hasMany(Stock, {
   sourceKey: "productId",
 });
 
+SubCategory.belongsTo(Category, {
+  targetKey: "name",
+  foreignKey: "categoryName",
+});
+Category.hasMany(SubCategory, {
+  sourceKey: "name",
+  foreignKey: "categoryName",
+});
+
+Product.belongsTo(SubCategory, {
+  targetKey: "name",
+  foreignKey: "subCategoryName",
+});
+SubCategory.hasMany(Product, {
+  sourceKey: "name",
+  foreignKey: "subCategoryName",
+});
+
+Tag.belongsTo(Product, {
+  targetKey: "productId",
+});
+Product.hasMany(Tag, {
+  sourceKey: "productId",
+});
 
 sequelize
-  .sync({ force: false, alter: false })
+  .sync({ force: false, alter: true })
   .then(() =>
     app.listen(PORT || 9000, () =>
       console.log(`app listening to the port ${PORT || 9000}`)

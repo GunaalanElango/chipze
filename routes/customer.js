@@ -42,11 +42,6 @@ router.get("/product-detail-home/:productId", async (req, res, next) => {
       stocks,
       product_images,
     } = product.toJSON();
-    // console.log(product_descriptions);
-    // console.log(product_images);
-    // console.log(product_keyfeatures);
-    // console.log(specifications);
-    // console.log(stocks);
     res.render("product_detail", {
       stock: stocks[0],
       descriptions: product_descriptions,

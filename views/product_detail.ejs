@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Detail - <%= product.name %></title>
+    <title><%= product.name %></title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <link href="/css/app.min.css" rel="stylesheet" />
@@ -20,14 +20,6 @@
         <div id="product" class="section-container p-t-20">
 
             <div class="container">
-
-                <!-- <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Mobile Phone</a></li>
-                    <li class="breadcrumb-item"><a href="#">Apple</a></li>
-                    <li class="breadcrumb-item active">iPhone 6S Plus</li>
-                </ul> -->
-
 
                 <div class="product">
 
@@ -47,30 +39,6 @@
                                             data-url="/<%= product.indexImage %>"><img src="/<%= product.indexImage %>"
                                                 alt="" /></a>
                                     </li>
-                                    <!-- <li><a href="#" data-click="show-main-image"
-                                            data-url="../assets/img/product/product-iphone-6s-plus-2.jpg"><img
-                                                src="../assets/img/product/product-iphone-6s-plus-2.jpg" alt="" /></a>
-                                    </li>
-                                    <li><a href="#" data-click="show-main-image"
-                                            data-url="../assets/img/product/product-iphone-6s-plus-3.jpg"><img
-                                                src="../assets/img/product/product-iphone-6s-plus-3.jpg" alt="" /></a>
-                                    </li>
-                                    <li><a href="#" data-click="show-main-image"
-                                            data-url="../assets/img/product/product-iphone-6s-plus-4.jpg"><img
-                                                src="../assets/img/product/product-iphone-6s-plus-4.jpg" alt="" /></a>
-                                    </li>
-                                    <li><a href="#" data-click="show-main-image"
-                                            data-url="../assets/img/product/product-iphone-6s-plus-5.jpg"><img
-                                                src="../assets/img/product/product-iphone-6s-plus-5.jpg" alt="" /></a>
-                                    </li>
-                                    <li><a href="#" data-click="show-main-image"
-                                            data-url="../assets/img/product/product-iphone-6s-plus-6.jpg"><img
-                                                src="../assets/img/product/product-iphone-6s-plus-6.jpg" alt="" /></a>
-                                    </li>
-                                    <li><a href="#" data-click="show-main-image"
-                                            data-url="../assets/img/product/product-iphone-6s-plus-7.jpg"><img
-                                                src="../assets/img/product/product-iphone-6s-plus-7.jpg" alt="" /></a>
-                                    </li> -->
                                 </ul>
                             </div>
 
@@ -112,25 +80,7 @@
                                 <% for (const key of keyFeatures) { %>
                                 <li>+ <%= key.keyFeature %></li>
                                 <% } %>
-                                <!-- <li><i class="fa fa-circle"></i> Fingerprint-resistant oleophobic coating</li>
-                                <li><i class="fa fa-circle"></i> A9 chip with 64-bit</li>
-                                <li><i class="fa fa-circle"></i> Ultrafast 4G LTE Advanced wireless</li>
-                                <li><i class="fa fa-circle"></i> New 12-megapixel iSight camera</li>
-                                <li><i class="fa fa-circle"></i> 4k video recording</li>
-                                <li><i class="fa fa-circle"></i> iOS 9 with Touch ID and Apple Pay</li> -->
                             </ul>
-
-
-                            <!-- <div class="product-social">
-                            <ul>
-                            <li><a href="javascript:;" class="facebook" data-toggle="tooltip" data-trigger="hover" data-title="Facebook" data-placement="top"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="javascript:;" class="twitter" data-toggle="tooltip" data-trigger="hover" data-title="Twitter" data-placement="top"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="javascript:;" class="google-plus" data-toggle="tooltip" data-trigger="hover" data-title="Google Plus" data-placement="top"><i class="fab fa-google-plus-g"></i></a></li>
-                            <li><a href="javascript:;" class="whatsapp" data-toggle="tooltip" data-trigger="hover" data-title="Whatsapp" data-placement="top"><i class="fab fa-whatsapp"></i></a></li>
-                            <li><a href="javascript:;" class="tumblr" data-toggle="tooltip" data-trigger="hover" data-title="Tumblr" data-placement="top"><i class="fab fa-tumblr"></i></a></li>
-                            </ul>
-                            </div> -->
-
 
                             <div class="product-purchase-container">
                                 <div class="product-discount">
@@ -200,8 +150,6 @@
                                         <thead>
                                             <tr>
                                                 <th></th>
-                                                <!-- <th>iPhone 6s</th> -->
-                                                <!-- <th>iPhone 6s Plus</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -211,95 +159,6 @@
                                                 <td><%= spec.value %></td>
                                             </tr>
                                             <% } %>
-                                            <!-- <tr>
-                                                <td class="field">Weight and Dimensions</td>
-                                                <td>
-                                                    5.44 inches (138.3 mm) x 2.64 inches (67.1 mm) x 0.28 inch (7.1
-                                                    mm)<br />
-                                                    Weight: 5.04 ounces (143 grams)
-                                                </td>
-                                                 <td>
-                                                    6.23 inches (158.2 mm) x 3.07 inches (77.9 mm) x 0.29 inch (7.3
-                                                    mm)<br />
-                                                    Weight: 6.77 ounces (192 grams)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="field">Display</td>
-                                                <td>
-                                                    Retina HD display with 3D Touch<br />
-                                                    4.7-inch (diagonal) LED-backlit widescreen<br />
-                                                    1334-by-750-pixel resolution at 326 ppi<br />
-                                                    1400:1 contrast ratio (typical)<br />
-                                                    <br />
-                                                    <b>Both models:</b><br />
-                                                    500 cd/m2 max brightness (typical)<br />
-                                                    Full sRGB standard<br />
-                                                    Dual-domain pixels for wide viewing angles<br />
-                                                    Fingerprint-resistant oleophobic coating on front<br />
-                                                    Support for display of multiple languages and characters
-                                                    simultaneously<br />
-                                                    Display Zoom<br />
-                                                    Reachability
-                                                </td>
-                                                <td>
-                                                    Retina HD display with 3D Touch<br />
-                                                    5.5-inch (diagonal) LED-backlit widescreen<br />
-                                                    1920-by-1080-pixel resolution at 401 ppi<br />
-                                                    1300:1 contrast ratio (typical)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="field">Chip</td>
-                                                <td colspan="2">
-                                                    A9 chip with 64-bit architecture Embedded M9 motion coprocessor
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="field">iSight Camera</td>
-                                                <td colspan="2">
-                                                    New 12-megapixel iSight camera with 1.22µ pixels<br />
-                                                    Live Photos<br />
-                                                    Autofocus with Focus Pixels<br />
-                                                    Optical image stabilization (iPhone 6s Plus only)<br />
-                                                    True Tone flash<br />
-                                                    Panorama (up to 63 megapixels)<br />
-                                                    Auto HDR for photos<br />
-                                                    Exposure control<br />
-                                                    Burst mode<br />
-                                                    Timer mode<br />
-                                                    ƒ/2.2 aperture<br />
-                                                    Five-element lens<br />
-                                                    Hybrid IR filter<br />
-                                                    Backside illumination sensor<br />
-                                                    Sapphire crystal lens cover<br />
-                                                    Auto image stabilization<br />
-                                                    Improved local tone mapping<br />
-                                                    Improved noise reduction<br />
-                                                    Face detection<br />
-                                                    Photo geotagging
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="field">Video Recording</td>
-                                                <td colspan="2">
-                                                    4K video recording (3840 by 2160) at 30 fps<br />
-                                                    1080p HD video recording at 30 fps or 60 fps<br />
-                                                    720p HD video recording at 30 fps<br />
-                                                    Optical image stabilization for video (iPhone 6s Plus only)<br />
-                                                    True Tone flash<br />
-                                                    Slo-mo video support for 1080p at 120 fps and 720p at 240 fps<br />
-                                                    Time-lapse video with stabilization<br />
-                                                    Cinematic video stabilization (1080p and 720p)<br />
-                                                    Continuous autofocus video<br />
-                                                    Improved noise reduction<br />
-                                                    Take 8MP still photos while recording 4K video<br />
-                                                    Playback zoom<br />
-                                                    3x zoom<br />
-                                                    Face detection<br />
-                                                    Video geotagging
-                                                </td>
-                                            </tr> -->
                                         </tbody>
                                     </table>
 
