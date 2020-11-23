@@ -1,12 +1,63 @@
 const router = require("express").Router();
 const { Product } = require("../models/product");
+const { ProductDesc } = require("../models/product-desc");
+const { ProductKeyFeature } = require("../models/product-key-feature");
+const { Stock } = require("../models/stock");
 const { ProductImage } = require("../models/product-image");
 const { Specification } = require("../models/specification");
 const { CartProduct } = require("../models/cart-product");
-
+const chalk = require("chalk");
 
 router.get("/product-detail-home/:productId", async (req, res, next) => {
-  res.render("product_detail", {});
+  try {
+    const product = await Product.findByPk(req.params.productId, {
+      include: [
+        {
+          model: ProductDesc,
+          required: false,
+        },
+        {
+          model: ProductKeyFeature,
+          required: false,
+        },
+        {
+          model: Specification,
+          required: false,
+        },
+        {
+          model: Stock,
+          required: false,
+        },
+        {
+          model: ProductImage,
+          required: false,
+        },
+      ],
+    });
+    console.log(product.toJSON());
+    const {
+      product_descriptions,
+      product_keyfeatures,
+      specifications,
+      stocks,
+      product_images,
+    } = product.toJSON();
+    // console.log(product_descriptions);
+    // console.log(product_images);
+    // console.log(product_keyfeatures);
+    // console.log(specifications);
+    // console.log(stocks);
+    res.render("product_detail", {
+      stock: stocks[0],
+      descriptions: product_descriptions,
+      keyFeatures: product_keyfeatures,
+      images: product_images,
+      specifications,
+      product: product.toJSON(),
+    });
+  } catch (error) {
+    console.log(chalk.greenBright(error));
+  }
 });
 
 router.get("/product-page", async (req, res, next) => {

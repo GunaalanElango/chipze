@@ -17,6 +17,7 @@ const { CartProduct } = require("./models/cart-product");
 const { Customer } = require("./models/customer");
 const { ProductDesc } = require("./models/product-desc");
 const { ProductKeyFeature } = require("./models/product-key-feature");
+const { Stock } = require("./models/stock");
 // const moment = require("moment");
 // const cron = require("node-cron");
 dotenv.config();
@@ -76,8 +77,16 @@ Product.hasMany(ProductKeyFeature, {
   sourceKey: "productId",
 });
 
+Stock.belongsTo(Product, {
+  targetKey: "productId",
+});
+Product.hasMany(Stock, {
+  sourceKey: "productId",
+});
+
+
 sequelize
-  .sync({ force: false, alter: true })
+  .sync({ force: false, alter: false })
   .then(() =>
     app.listen(PORT || 9000, () =>
       console.log(`app listening to the port ${PORT || 9000}`)
