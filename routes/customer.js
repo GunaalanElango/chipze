@@ -7,6 +7,8 @@ const { ProductImage } = require("../models/product-image");
 const { Specification } = require("../models/specification");
 const { CartProduct } = require("../models/cart-product");
 const chalk = require("chalk");
+const { SubCategory } = require("../models/sub-category");
+const { Category } = require("../models/category");
 
 router.get("/product-detail-home/:productId", async (req, res, next) => {
   try {
@@ -14,6 +16,10 @@ router.get("/product-detail-home/:productId", async (req, res, next) => {
       include: [
         {
           model: ProductDesc,
+          required: false,
+        },
+        {
+          model: SubCategory,
           required: false,
         },
         {
@@ -34,7 +40,6 @@ router.get("/product-detail-home/:productId", async (req, res, next) => {
         },
       ],
     });
-    console.log(product.toJSON());
     const {
       product_descriptions,
       product_keyfeatures,

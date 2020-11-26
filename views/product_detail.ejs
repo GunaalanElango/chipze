@@ -31,12 +31,12 @@
                                 <ul class="product-thumbnail-list">
                                     <% for (const image of images) { %>
                                     <li class="active"><a href="#" data-click="show-main-image"
-                                            data-url="/<%= image.extraImage %>"><img src="/<%= image.extraImage %>"
+                                            data-url="<%= image.extraImage %>"><img src="<%= image.extraImage %>"
                                                 alt="" /></a>
                                     </li>
                                     <% } %>
                                     <li class="active"><a href="#" data-click="show-main-image"
-                                            data-url="/<%= product.indexImage %>"><img src="/<%= product.indexImage %>"
+                                            data-url="<%= product.indexImage %>"><img src="<%= product.indexImage %>"
                                                 alt="" /></a>
                                     </li>
                                 </ul>
@@ -44,7 +44,7 @@
 
 
                             <div class="product-main-image" data-id="main-image">
-                                <img src="/<%= product.indexImage %>" alt="" />
+                                <img src="<%= product.indexImage %>" alt="" />
                             </div>
 
                         </div>
@@ -56,13 +56,9 @@
                                 <h1 class="product-title"><span class="badge bg-primary">41% OFF</span>
                                     <%= product.name %> </h1>
                                 <ul class="product-category">
-                                    <li><a href="#">iPhone</a></li>
+                                    <li><a href="#"><%= product.subcategory.categoryName %></a></li>
                                     <li>/</li>
-                                    <li><a href="#">mobile phone</a></li>
-                                    <li>/</li>
-                                    <li><a href="#">electronics</a></li>
-                                    <li>/</li>
-                                    <li><a href="#">lifestyle</a></li>
+                                    <li><a href="#"><%= product.subcategory.name %></a></li>
                                 </ul>
                             </div>
 

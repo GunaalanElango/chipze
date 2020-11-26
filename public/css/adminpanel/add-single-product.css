@@ -24,7 +24,8 @@ form {
   height: 100px !important;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
 }
 
@@ -49,4 +50,20 @@ button[type*="submit"] {
 button[type*="submit"]:hover {
   background-color: #175a5c;
   color: white;
+}
+
+.list-category--container {
+  width: 77vw;
+  margin: 10px auto;
+  display: flex;
+}
+
+.list-category--container div {
+  background: #c8cfcf;
+  padding: 10px;
+  margin: 0 20px;
+}
+
+.list-category--container div ol {
+  padding: 0 20px;
 }

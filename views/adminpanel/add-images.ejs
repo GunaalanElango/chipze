@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
     <meta charset="utf-8" />
-    <title>Add Product Image</title>
+    <title>Add Single Product</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -14,21 +13,19 @@
     <script src="/js/adminpanel/add-product.js" defer></script>
 </head>
 
-
 <body>
     <div id="page-container" class="fade show">
         <%- include("./navigation-bar.ejs") %>
-        <form action="/admin-panel/add-product-image" method="post" enctype="multipart/form-data">
-            <h2 class="form-heading">Add Product Image</h2>
+        <form action="/admin-panel/add-more-image" method="post" enctype="multipart/form-data">
+            <h2 class="form-heading">Add Product</h2>
             <section id="product-image">
-                <h2>Image</h2>
+                <h2>Add Image</h2>
                 <div class="form-group">
-                    <label for="product-image">Index Image:</label>
-                    <input type="file" id="product-image" name="productImage">
+                    <input type="file" id="index-image" name="productImage">
                 </div>
-                <h5 id="add-img-btn">Add Image</h5>
+                <h5 id="add-img-btn">Add Another Image</h5>
             </section>
-            <button type="submit">Add Images</button>
+            <button type="submit">Add Product Images</button>
         </form>
 </body>
 

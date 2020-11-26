@@ -7,7 +7,6 @@ const addAnotherImageHandler = () => {
   const divEl = document.createElement("div");
   divEl.className = "form-group";
   divEl.innerHTML = `
-      <label for="index-image">Extra Image:</label>
       <input type="file" id="extra-image" name="productImage">
   `;
   addImageBtn.before(divEl);

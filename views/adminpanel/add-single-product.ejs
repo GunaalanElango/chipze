@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
     <meta charset="utf-8" />
     <title>Add Single Product</title>
@@ -14,15 +13,26 @@
     <script src="/js/adminpanel/add-product.js" defer></script>
 </head>
 
-
 <body>
     <div id="page-container" class="fade show">
         <%- include("./navigation-bar.ejs") %>
         <form action="/admin-panel/add-single-product" method="post" enctype="multipart/form-data">
             <h2 class="form-heading">Add Product</h2>
             <div class="form-group">
-                <label for="serial-number">Serial Number :</label>
-                <input type="text" id="serial-number" name="serialNumber">
+                <label>Category :</label>
+                <select name="categoryName">
+                    <% for (let category of categories) { %>
+                    <option value="<%= category.name %>"><%= category.name %></option>
+                    <% } %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Select SubCategory :</label>
+                <select name="subCategoryName">
+                    <% for (let subCategory of subCategories) { %>
+                    <option value="<%= subCategory.name %>"><%= subCategory.name %></option>
+                    <% } %>
+                </select>
             </div>
             <div class="form-group" id="product-name">
                 <label for="name">Name:</label>
@@ -62,10 +72,6 @@
             <div class="form-group">
                 <label for="original-price">Original Price:</label>
                 <input type="text" id="original-price" name="originalPrice">
-            </div>
-            <div class="form-group">
-                <label for="selling-price">Selling Price:</label>
-                <input type="text" id="selling-price" name="sellingPrice">
             </div>
             <section>
                 <h2>Stock Detail</h2>

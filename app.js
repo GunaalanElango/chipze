@@ -46,43 +46,23 @@ app.use("/admin-panel", adminRoutes);
 app.use("/auth", authRoutes);
 app.use("/customer", customerRoutes);
 
-Specification.belongsTo(Product, {
-  targetKey: "productId",
-});
-Product.hasMany(Specification, {
-  sourceKey: "productId",
-});
+Specification.belongsTo(Product, {});
+Product.hasMany(Specification, {});
 
-ProductImage.belongsTo(Product, {
-  targetKey: "productId",
-});
-Product.hasMany(ProductImage, {
-  sourceKey: "productId",
-});
+ProductImage.belongsTo(Product, {});
+Product.hasMany(ProductImage, {});
 
 CartProduct.belongsTo(Product);
 Product.hasMany(CartProduct);
 
-ProductDesc.belongsTo(Product, {
-  targetKey: "productId",
-});
-Product.hasMany(ProductDesc, {
-  sourceKey: "productId",
-});
+ProductDesc.belongsTo(Product, {});
+Product.hasMany(ProductDesc, {});
 
-ProductKeyFeature.belongsTo(Product, {
-  targetKey: "productId",
-});
-Product.hasMany(ProductKeyFeature, {
-  sourceKey: "productId",
-});
+ProductKeyFeature.belongsTo(Product, {});
+Product.hasMany(ProductKeyFeature, {});
 
-Stock.belongsTo(Product, {
-  targetKey: "productId",
-});
-Product.hasMany(Stock, {
-  sourceKey: "productId",
-});
+Stock.belongsTo(Product, {});
+Product.hasMany(Stock, {});
 
 SubCategory.belongsTo(Category, {
   targetKey: "name",
@@ -102,15 +82,11 @@ SubCategory.hasMany(Product, {
   foreignKey: "subCategoryName",
 });
 
-Tag.belongsTo(Product, {
-  targetKey: "productId",
-});
-Product.hasMany(Tag, {
-  sourceKey: "productId",
-});
+Tag.belongsTo(Product);
+Product.hasMany(Tag);
 
 sequelize
-  .sync({ force: false, alter: true })
+  .sync({ force: false, alter: false })
   .then(() =>
     app.listen(PORT || 9000, () =>
       console.log(`app listening to the port ${PORT || 9000}`)

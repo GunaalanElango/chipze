@@ -16,8 +16,8 @@ const workBookStorage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(null, file.originalname);
   }
-})
+});
 
 exports.workBookUpload = multer({ storage: workBookStorage }).single("workBook");
 
-exports.productImageUpload = multer({ storage: productImageStorage }).array("productImage", 10);
+exports.productImageUpload = multer({ storage: productImageStorage }).array("productImage", 50);

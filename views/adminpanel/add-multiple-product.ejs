@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <meta charset="utf-8" />
   <title>Add Multiple Product</title>
@@ -15,18 +14,18 @@
   <script src="/js/app.min.css" defer></script>
 </head>
 
-
 <body>
   <div id="page-container" class="fade show">
     <%- include("./navigation-bar.ejs") %>
     <form action="/admin-panel/add-multiple-product" method="post" enctype="multipart/form-data">
-      <h2>Add worksheet</h2>
+      <h2>Product Excel Sheet</h2>
       <div class="form-group">
-        <label for="worksheet">upload product worksheet:</label>
+        <label for="worksheet">Excel Sheet:</label>
         <input type="file" id="worksheet" name="workBook">
       </div>
       <button type="submit">SUBMIT</button>
     </form>
+
 </body>
 
 </html>

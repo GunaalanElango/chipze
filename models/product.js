@@ -22,11 +22,11 @@ const Product = sequelize.define("product", {
     type: Sequelize.INTEGER(10),
     allowNull: true,
   },
-  productId: {
-    type: Sequelize.INTEGER(10),
-    allowNull: false,
-    unique: true,
-  },
+  // productId: {
+  //   type: Sequelize.STRING(100),
+  //   allowNull: true,
+  //   unique: true,
+  // },
   rating: {
     type: Sequelize.INTEGER(10),
     allowNull: true,
