@@ -70,9 +70,13 @@ router.post("/search-result", async (req, res, next) => {
 
 router.get("/index", async (req, res, next) => {
   const products = await Product.findAll({
-    limit: 10,
+    limit: 6,
   });
-  res.render("index", { products });
+  const laptops = await Product.findAll({
+    where: { subCategoryName: "Laptop" },
+    limit: 6,
+  });
+  res.render("index", { products, laptops });
 });
 
 router.get("/checkout-cart", async (req, res, next) => {
