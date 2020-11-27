@@ -69,7 +69,10 @@ router.post("/search-result", async (req, res, next) => {
 });
 
 router.get("/index", async (req, res, next) => {
-  res.render("index", {});
+  const products = await Product.findAll({
+    limit: 10,
+  });
+  res.render("index", { products });
 });
 
 router.get("/checkout-cart", async (req, res, next) => {

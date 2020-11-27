@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Mirrored from seantheme.com/color-admin/frontend/e-commerce/ by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 04 Nov 2020 05:34:36 GMT -->
 
 <head>
   <meta charset="utf-8" />
@@ -18,7 +17,7 @@
   <div id="page-container" class="fade show">
     <%- include("./navigation-bar.ejs") %>
 
-    <!-- <div id="slider" class="section-container p-0 bg-black-darker">
+    <div id="slider" class="section-container p-0 bg-black-darker">
       <div id="main-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active" data-paroller="true" data-paroller-factor="0.3"
@@ -27,8 +26,7 @@
                   no-repeat;
               ">
             <div class="container">
-              <img src="/images/slider-1-product.png" class="product-img right bottom fadeInRight animated"
-                alt="" />
+              <img src="/images/slider-1-product.png" class="product-img right bottom fadeInRight animated" alt="" />
             </div>
             <div class="carousel-caption carousel-caption-left">
               <div class="container">
@@ -75,14 +73,14 @@
           </div>
         </div>
 
-        <a class="carousel-control-prev" href="#main-carousel" data-slide="prev">
+        <!-- <a class="carousel-control-prev" href="#main-carousel" data-slide="prev">
           <i class="fa fa-angle-left"></i>
         </a>
         <a class="carousel-control-next" href="#main-carousel" data-slide="next">
-          <i class="fa fa-angle-right"></i>
-        </a>
+           <i class="fa fa-angle-right"></i>
+        </a> -->
       </div>
-    </div> -->
+    </div>
 
     <div id="promotions" class="section-container bg-white">
       <div class="container">
@@ -170,26 +168,28 @@
           Trending Items
           <small>Shop and get your favourite items at amazing prices!</small>
         </h4>
-
         <div class="row row-space-10">
+        <% for (let product of products) { %>
           <div class="col-lg-2 col-md-4">
             <div class="item item-thumbnail">
-              <a href="product_detail.html" class="item-image">
-                <img src="../assets/img/product/product-iphone.png" alt="" />
+              <a href="/customer/product-detail-home/<%= product.id %>" class="item-image">
+                <img src="<%= product.indexImage %>" alt="" />
                 <div class="discount">15% OFF</div>
               </a>
               <div class="item-info">
                 <h4 class="item-title">
-                  <a href="product_detail.html">iPhone 6s Plus<br />16GB</a>
+                  <a href="/customer/product-detail-home/<%= product.id %>"><%= product.name %></a>
                 </h4>
-                <p class="item-desc">3D Touch. 12MP photos. 4K video.</p>
-                <div class="item-price">$649.00</div>
-                <div class="item-discount-price">$739.00</div>
+                <!-- <p class="item-desc">3D Touch. 12MP photos. 4K video.</p> -->
+                <div class="item-price">Rs <%= product.originalPrice %></div>
+                <div class="item-discount-price">Rs <%= product.sellingPrice %></div>
               </div>
             </div>
           </div>
+          <% } %>
 
-          <div class="col-lg-2 col-md-4">
+
+          <!-- <div class="col-lg-2 col-md-4">
             <div class="item item-thumbnail">
               <a href="product_detail.html" class="item-image">
                 <img src="../assets/img/product/product-ipad-pro.png" alt="" />
@@ -272,12 +272,12 @@
                 <div class="item-discount-price">$249.00</div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
 
-    <div id="mobile-list" class="section-container p-t-0">
+    <!-- <div id="mobile-list" class="section-container p-t-0">
       <div class="container">
         <h4 class="section-title clearfix">
           <a href="/customer/product-page" class="pull-right">SHOW ALL</a>
@@ -551,7 +551,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div id="policy" class="section-container bg-white">
       <div class="container">
