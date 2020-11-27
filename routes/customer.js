@@ -8,7 +8,6 @@ const { Specification } = require("../models/specification");
 const { CartProduct } = require("../models/cart-product");
 const chalk = require("chalk");
 const { SubCategory } = require("../models/sub-category");
-const { Category } = require("../models/category");
 
 router.get("/product-detail-home/:productId", async (req, res, next) => {
   try {
@@ -47,6 +46,7 @@ router.get("/product-detail-home/:productId", async (req, res, next) => {
       stocks,
       product_images,
     } = product.toJSON();
+    const cartProducts = await CartProduct.findAll();
     res.render("product_detail", {
       stock: stocks[0],
       descriptions: product_descriptions,
@@ -54,6 +54,7 @@ router.get("/product-detail-home/:productId", async (req, res, next) => {
       images: product_images,
       specifications,
       product: product.toJSON(),
+      totalCartItems: cartProducts.length,
     });
   } catch (error) {
     console.log(chalk.greenBright(error));
@@ -61,11 +62,13 @@ router.get("/product-detail-home/:productId", async (req, res, next) => {
 });
 
 router.get("/product-page", async (req, res, next) => {
-  res.render("product", {});
+  const cartProducts = await CartProduct.findAll();
+  res.render("product", { totalCartItems: cartProducts.length });
 });
 
 router.post("/search-result", async (req, res, next) => {
-  res.render("search_results", {});
+  const cartProducts = await CartProduct.findAll();
+  res.render("search_results", { totalCartItems: cartProducts.length });
 });
 
 router.get("/index", async (req, res, next) => {
@@ -76,7 +79,12 @@ router.get("/index", async (req, res, next) => {
     where: { subCategoryName: "Laptop" },
     limit: 6,
   });
-  res.render("index", { products, laptops });
+  const cartProducts = await CartProduct.findAll();
+  res.render("index", {
+    products,
+    laptops,
+    totalCartItems: cartProducts.length,
+  });
 });
 
 router.get("/checkout-cart", async (req, res, next) => {
@@ -88,7 +96,15 @@ router.get("/checkout-cart", async (req, res, next) => {
       },
     ],
   });
-  res.render("checkout_cart", { cartProducts });
+  let totalCartPrice = 0;
+  for (let cart of cartProducts) {
+    totalCartPrice += cart.totalPrice;
+  }
+  res.render("checkout_cart", {
+    cartProducts,
+    totalCartItems: cartProducts.length,
+    totalCartPrice
+  });
 });
 
 router.post("/add-to-cart/:productId", async (req, res, next) => {
@@ -100,16 +116,50 @@ router.post("/add-to-cart/:productId", async (req, res, next) => {
   res.redirect("/customer/checkout-cart");
 });
 
+router.get("/remove-from-cart/:cartProductId", async (req, res, next) => {
+  await CartProduct.destroy({
+    where: { id: req.params.cartProductId },
+  });
+  res.redirect("/customer/checkout-cart");
+});
+
+router.get("/increase-qty/:cartProductId", async (req, res, next) => {
+  const cartProduct = await CartProduct.findByPk(req.params.cartProductId);
+  const product = await Product.findByPk(cartProduct.productId);
+  if (cartProduct.quantity >= 2) {
+    return res.redirect("/customer/checkout-cart");
+  }
+  cartProduct.quantity += 1;
+  cartProduct.totalPrice += product.sellingPrice;
+  cartProduct.save();
+  res.redirect("/customer/checkout-cart");
+});
+
+router.get("/decrease-qty/:cartProductId", async (req, res, next) => {
+  const cartProduct = await CartProduct.findByPk(req.params.cartProductId);
+  const product = await Product.findByPk(cartProduct.productId);
+  if (cartProduct.quantity <= 1) {
+    return res.redirect("/customer/checkout-cart");
+  }
+  cartProduct.quantity -= 1;
+  cartProduct.totalPrice -= product.sellingPrice;
+  cartProduct.save();
+  res.redirect("/customer/checkout-cart");
+});
+
 router.get("/checkout-info", async (req, res, next) => {
-  res.render("checkout_info", {});
+  const cartProducts = await CartProduct.findAll();
+  res.render("checkout_info", { totalCartItems: cartProducts.length });
 });
 
 router.get("/checkout-complete", async (req, res, next) => {
-  res.render("checkout_complete", {});
+  const cartProducts = await CartProduct.findAll();
+  res.render("checkout_complete", { totalCartItems: cartProducts.length });
 });
 
 router.get("/checkout-payment", async (req, res, next) => {
-  res.render("checkout_payment", {});
+  const cartProducts = await CartProduct.findAll();
+  res.render("checkout_payment", { totalCartItems: cartProducts.length });
 });
 
 router.get("/about-us", async (req, res, next) => {
