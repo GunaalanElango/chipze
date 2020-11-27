@@ -85,8 +85,11 @@
                                 <div class="product-price">
                                     <div class="price">Rs : <%= product.sellingPrice %></div>
                                 </div>
-                                <a href="checkout_cart.html" class="btn btn-inverse btn-theme btn-lg width-200">ADD TO
-                                    CART</a>
+                                <form action="/customer/add-to-cart/<%= product.id %>" method="POST">
+                                    <button class="btn btn-inverse btn-theme btn-lg width-200">ADD TO
+                                        CART</button>
+                                </form>
+
                             </div>
 
                         </div>

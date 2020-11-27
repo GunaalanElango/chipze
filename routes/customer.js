@@ -80,7 +80,24 @@ router.get("/index", async (req, res, next) => {
 });
 
 router.get("/checkout-cart", async (req, res, next) => {
-  res.render("checkout_cart", {});
+  const cartProducts = await CartProduct.findAll({
+    include: [
+      {
+        model: Product,
+        required: false,
+      },
+    ],
+  });
+  res.render("checkout_cart", { cartProducts });
+});
+
+router.post("/add-to-cart/:productId", async (req, res, next) => {
+  const product = await Product.findByPk(req.params.productId);
+  const createCart = await CartProduct.create({
+    productId: req.params.productId,
+    totalPrice: product.sellingPrice,
+  });
+  res.redirect("/customer/checkout-cart");
 });
 
 router.get("/checkout-info", async (req, res, next) => {

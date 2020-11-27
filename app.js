@@ -46,23 +46,23 @@ app.use("/admin-panel", adminRoutes);
 app.use("/auth", authRoutes);
 app.use("/customer", customerRoutes);
 
-Specification.belongsTo(Product, {});
-Product.hasMany(Specification, {});
+Specification.belongsTo(Product);
+Product.hasMany(Specification);
 
-ProductImage.belongsTo(Product, {});
-Product.hasMany(ProductImage, {});
+ProductImage.belongsTo(Product);
+Product.hasMany(ProductImage);
 
 CartProduct.belongsTo(Product);
 Product.hasMany(CartProduct);
 
-ProductDesc.belongsTo(Product, {});
-Product.hasMany(ProductDesc, {});
+ProductDesc.belongsTo(Product);
+Product.hasMany(ProductDesc);
 
-ProductKeyFeature.belongsTo(Product, {});
-Product.hasMany(ProductKeyFeature, {});
+ProductKeyFeature.belongsTo(Product);
+Product.hasMany(ProductKeyFeature);
 
-Stock.belongsTo(Product, {});
-Product.hasMany(Stock, {});
+Stock.belongsTo(Product);
+Product.hasMany(Stock);
 
 SubCategory.belongsTo(Category, {
   targetKey: "name",
@@ -86,7 +86,7 @@ Tag.belongsTo(Product);
 Product.hasMany(Tag);
 
 sequelize
-  .sync({ force: false, alter: false })
+  .sync({ force: false, alter: true })
   .then(() =>
     app.listen(PORT || 9000, () =>
       console.log(`app listening to the port ${PORT || 9000}`)

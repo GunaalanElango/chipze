@@ -5,6 +5,11 @@ const CartProduct = sequelize.define("cart_products", {
   quantity: {
     type: Sequelize.INTEGER(10),
     allowNull: false,
+    defaultValue: 1,
+  },
+  totalPrice: {
+    type: Sequelize.INTEGER(10),
+    allowNull: true,
   },
 });
 
