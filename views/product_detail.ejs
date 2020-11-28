@@ -80,10 +80,10 @@
 
                             <div class="product-purchase-container">
                                 <div class="product-discount">
-                                    <span class="discount">Rs : <%= product.originalPrice %></span>
+                                    <span class="discount">&#8377; <%= product.originalPrice %></span>
                                 </div>
                                 <div class="product-price">
-                                    <div class="price">Rs : <%= product.sellingPrice %></div>
+                                    <div class="price">&#8377; <%= product.sellingPrice %></div>
                                 </div>
                                 <form action="/customer/add-to-cart/<%= product.id %>" method="POST">
                                     <button class="btn btn-inverse btn-theme btn-lg width-200">ADD TO

@@ -8,6 +8,7 @@ const { Specification } = require("../models/specification");
 const { CartProduct } = require("../models/cart-product");
 const chalk = require("chalk");
 const { SubCategory } = require("../models/sub-category");
+const { Op } = require("sequelize");
 
 router.get("/product-detail-home/:productId", async (req, res, next) => {
   try {
@@ -68,7 +69,14 @@ router.get("/product-page", async (req, res, next) => {
 
 router.post("/search-result", async (req, res, next) => {
   const cartProducts = await CartProduct.findAll();
-  res.render("search_results", { totalCartItems: cartProducts.length });
+  const products = await Product.findAll({
+    where: { name: { [Op.substring]: req.body.searchValue } },
+  });
+  res.render("search_results", {
+    totalCartItems: cartProducts.length,
+    searchValue: req.body.searchValue,
+    products,
+  });
 });
 
 router.get("/index", async (req, res, next) => {
@@ -103,7 +111,7 @@ router.get("/checkout-cart", async (req, res, next) => {
   res.render("checkout_cart", {
     cartProducts,
     totalCartItems: cartProducts.length,
-    totalCartPrice
+    totalCartPrice,
   });
 });
 
