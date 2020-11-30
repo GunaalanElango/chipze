@@ -86,7 +86,7 @@ Tag.belongsTo(Product);
 Product.hasMany(Tag);
 
 sequelize
-  .sync({ force: false, alter: false })
+  .sync({ force: false, alter: true })
   .then(() =>
     app.listen(PORT || 9000, () =>
       console.log(`app listening to the port ${PORT || 9000}`)

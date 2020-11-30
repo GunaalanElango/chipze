@@ -26,10 +26,6 @@ const Customer = sequelize.define("customers", {
     type: Sequelize.STRING(50),
     allowNull: true,
   },
-  state: {
-    type: Sequelize.STRING(50),
-    allowNull: true,
-  },
   pincode: {
     type: Sequelize.INTEGER(6),
     allowNull: true,

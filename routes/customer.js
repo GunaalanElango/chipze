@@ -7,7 +7,7 @@ const { ProductImage } = require("../models/product-image");
 const { Specification } = require("../models/specification");
 const { CartProduct } = require("../models/cart-product");
 const chalk = require("chalk");
-const { SubCategory } = require("../models/sub-category");
+const { SubCategory } = require("../models/sub-category"); 
 const { Op } = require("sequelize");
 
 router.get("/product-detail-home/:productId", async (req, res, next) => {
@@ -69,13 +69,25 @@ router.get("/product-page", async (req, res, next) => {
 
 router.post("/search-result", async (req, res, next) => {
   const cartProducts = await CartProduct.findAll();
-  const products = await Product.findAll({
-    where: { name: { [Op.substring]: req.body.searchValue } },
-  });
+  const searchValues = req.body.searchValue.split(" ");
+  let products = [];
+  for (let searchValue of searchValues) {
+    const prod = await Product.findAll({
+      where: { name: { [Op.substring]: searchValue } },
+    });
+    for (let p of prod) {
+      const pr = products.find((product) => {
+        return product.id === p.id;
+      });
+      if (!pr) {
+        products.push(p.toJSON());
+      }
+    }
+  }
   res.render("search_results", {
     totalCartItems: cartProducts.length,
     searchValue: req.body.searchValue,
-    products,
+    products: products,
   });
 });
 
@@ -155,18 +167,19 @@ router.get("/decrease-qty/:cartProductId", async (req, res, next) => {
   res.redirect("/customer/checkout-cart");
 });
 
-router.get("/checkout-info", async (req, res, next) => {
+router.post("/checkout-info", async (req, res, next) => {
   const cartProducts = await CartProduct.findAll();
   res.render("checkout_info", { totalCartItems: cartProducts.length });
 });
 
-router.get("/checkout-complete", async (req, res, next) => {
+router.post("/checkout-complete", async (req, res, next) => {
   const cartProducts = await CartProduct.findAll();
   res.render("checkout_complete", { totalCartItems: cartProducts.length });
 });
 
-router.get("/checkout-payment", async (req, res, next) => {
+router.post("/checkout-payment", async (req, res, next) => {
   const cartProducts = await CartProduct.findAll();
+  console.log(req.body);
   res.render("checkout_payment", { totalCartItems: cartProducts.length });
 });
 
