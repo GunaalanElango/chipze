@@ -55,6 +55,9 @@ Product.hasMany(ProductImage);
 CartProduct.belongsTo(Product);
 Product.hasMany(CartProduct);
 
+CartProduct.belongsTo(Customer);
+Customer.hasMany(CartProduct);
+
 ProductDesc.belongsTo(Product);
 Product.hasMany(ProductDesc);
 
@@ -86,7 +89,7 @@ Tag.belongsTo(Product);
 Product.hasMany(Tag);
 
 sequelize
-  .sync({ force: false, alter: true })
+  .sync({ force: false, alter: false })
   .then(() =>
     app.listen(PORT || 9000, () =>
       console.log(`app listening to the port ${PORT || 9000}`)

@@ -195,7 +195,8 @@
                         <li style="padding-top: 20px;">
                             <form action="/customer/search-result" method="POST" name="search_form">
                                 <div class="input-group">
-                                    <input style="width: 300px;" type="text" placeholder="Search Products by name" name="searchValue" class="form-control bg-silver-lighter" />
+                                    <input style="width: 300px;" type="text" placeholder="Search Products by name"
+                                        name="searchValue" class="form-control bg-silver-lighter" />
                                     <div class="input-group-append">
                                         <button class="btn btn-inverse" type="submit">Search</button>
                                         <!-- <button class="btn btn-inverse" type="submit"><i class="fa fa-search"></i></button> -->
@@ -291,10 +292,20 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="my_account.html">
-                            <!-- <img src="../assets/img/user/user-1.jpg" class="user-img" alt="" /> -->
-                            <span class="d-none d-xl-inline">Login / Register</span>
+                        <% if (isAuthenticated) { %>
+                        <a href="/customer/logout">
+                            <span class="d-none d-xl-inline">Logout</span>
                         </a>
+                        <% } else { %>
+                        <a href="/customer/login">
+                            <span class="d-none d-xl-inline">Login</span>
+                        </a>
+                    <li>
+                        <a href="/customer/register">
+                            <span class="d-none d-xl-inline">Register</span>
+                        </a>
+                    </li>
+                    <% } %>
                     </li>
                 </ul>
             </div>
