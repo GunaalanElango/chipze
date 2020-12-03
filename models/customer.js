@@ -14,9 +14,13 @@ const Customer = sequelize.define("customers", {
     type: Sequelize.BOOLEAN,
     allowNull: true,
   },
+  alternatePhoneNumber: {
+    type: Sequelize.STRING(100),
+    allowNull: true,
+  },
   password: {
     type: Sequelize.STRING(100),
-    allowNull: false
+    allowNull: false,
   },
   address: {
     type: Sequelize.STRING(100),

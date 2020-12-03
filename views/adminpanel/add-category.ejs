@@ -15,6 +15,15 @@
 <body>
     <div id="page-container" class="fade show">
         <%- include("./navigation-bar.ejs") %>
+        <div class="category-sidebar">
+            <ul class="category-list">
+                <li class="list-header">Categories</li>
+                <% for (let category of categories) { %>
+                <li><%= category.name %></li>
+                <% } %>
+            </ul>
+        </div>
+        
         <form action="/admin-panel/add-category" method="post">
             <h2 class="form-heading">Add Category</h2>
             <section id="product-image">
@@ -25,42 +34,6 @@
             </section>
             <button type="submit">Add Category</button>
         </form>
-        <form action="/admin-panel/add-subcategory" method="post">
-            <h2 class="form-heading">Add Sub Category</h2>
-            <div class="form-group">
-                <label for="">Select Category:</label>
-                <select name="categoryName">
-                    <% for (let category of categories) { %>
-                    <option value="<%= category.name %>"><%= category.name %></option>
-                    <% } %>
-                </select>
-            </div>
-            <section id="product-image">
-                <div class="form-group">
-                    <label for="category">Sub Category Name:</label>
-                    <input type="text" id="category" name="subCategoryName">
-                </div>
-            </section>
-            <button type="submit">Add Sub Category</button>
-        </form>
-        <section class="list-category--container">
-            <div>
-                <h2>Categories</h2>
-                <ol>
-                    <% for (let category of categories) { %>
-                    <li><%= category.name %></li>
-                    <% } %>
-                </ol>
-            </div>
-            <div>
-                <h2>Sub Categories</h2>
-                <ol>
-                    <% for (let subCategory of subCategories) { %>
-                    <li><%= subCategory.name %></li>
-                    <% } %>
-                </ol>
-            </div>
-        </section>
 </body>
 
 </html>

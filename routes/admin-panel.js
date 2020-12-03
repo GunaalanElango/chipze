@@ -34,15 +34,15 @@ router.post("/add-multiple-product", workBookUpload, async (req, res, next) => {
         const [category, created] = await Category.findOrCreate({
           where: { name: product.categoryName },
         });
-        const [subCategory, isCreated] = await SubCategory.findOrCreate({
-          where: { name: product.subCategoryName, categoryName: category.name },
-        });
+        // const [subCategory, isCreated] = await SubCategory.findOrCreate({
+        //   where: { name: product.subCategoryName, categoryName: category.name },
+        // });
         const createdProduct = await Product.create({
           name: product.name,
           originalPrice: product.originalPrice,
           sellingPrice: product.originalPrice,
           indexImage: "/images/product-image/" + product.indexImage,
-          subCategoryName: subCategory.name,
+          categoryName: category.name,
         });
         PRODUCT_ID = createdProduct.id;
         await Stock.create({
@@ -84,57 +84,9 @@ router.post("/add-multiple-product", workBookUpload, async (req, res, next) => {
   }
 });
 
-// router.post("/add-multiple-product", workBookUpload, async (req, res, next) => {
-//   try {
-//     const wb = xlsx.readFile("public/excel-files/" + req.file.filename);
-//     const productWorkSheet = wb.Sheets["product"];
-//     const specificationWorkSheet = wb.Sheets["specification"];
-//     const descriptionWorkSheet = wb.Sheets["description"];
-//     const featureWorkSheet = wb.Sheets["features"];
-//     const imageWorkSheet = wb.Sheets["images"];
-//     const productData = xlsx.utils.sheet_to_json(productWorkSheet);
-//     const specificationData = xlsx.utils.sheet_to_json(specificationWorkSheet);
-//     const descriptionData = xlsx.utils.sheet_to_json(descriptionWorkSheet);
-//     const featureData = xlsx.utils.sheet_to_json(featureWorkSheet);
-//     const imageData = xlsx.utils.sheet_to_json(imageWorkSheet);
-//     for (let product of productData) {
-//       const [category, created] = await Category.findOrCreate({
-//         where: { name: product.categoryName },
-//       });
-//       const [subCategory, isCreated] = await SubCategory.findOrCreate({
-//         where: { name: product.subCategoryName, categoryName: category.name },
-//       });
-//       await Product.create({
-//         name: product.name,
-//         originalPrice: product.originalPrice,
-//         productId: product.productId,
-//         sellingPrice: product.originalPrice,
-//         indexImage: "/images/product-image/" + product.indexImage,
-//         subCategoryName: subCategory.name,
-//       });
-//       await Stock.create({
-//         productId: product.productId,
-//         available: product.availableStock,
-//       });
-//     }
-//     for (let specification of specificationData) {
-//       await Specification.create({
-//         name: specification.name,
-//         value: specification.value,
-//         productId: specification.productId,
-//       });
-//     }
-
-//     res.redirect("/admin-panel/add-multiple-product");
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
 router.get("/add-single-product", async (req, res, next) => {
-  const subCategories = await SubCategory.findAll();
   const categories = await Category.findAll();
-  res.render("adminpanel/add-single-product", { subCategories, categories });
+  res.render("adminpanel/add-single-product", { categories });
 });
 
 router.post(
@@ -151,14 +103,14 @@ router.post(
         availableStock,
         originalPrice,
         keyFeature,
-        subCategoryName,
+        categoryName,
       } = req.body;
       const createdProduct = await Product.create({
         name,
         originalPrice,
         sellingPrice: originalPrice,
         indexImage: "/images/product-image/" + req.files[0].filename,
-        subCategoryName,
+        categoryName,
       });
       if (typeof descName === "object") {
         for (let i = 0; i <= descName.length; i++) {
@@ -222,16 +174,8 @@ router.post(
 
 router.get("/add-category", async (req, res, next) => {
   try {
-    const categories = await Category.findAll({
-      include: [
-        {
-          model: SubCategory,
-          required: false,
-        },
-      ],
-    });
-    const subCategories = await SubCategory.findAll();
-    res.render("adminpanel/add-category", { categories, subCategories });
+    const categories = await Category.findAll();
+    res.render("adminpanel/add-category", { categories });
   } catch (error) {
     console.log(error);
   }

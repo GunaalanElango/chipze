@@ -18,8 +18,9 @@ const { Customer } = require("./models/customer");
 const { ProductDesc } = require("./models/product-desc");
 const { ProductKeyFeature } = require("./models/product-key-feature");
 const { Stock } = require("./models/stock");
+const { ProductReview } = require("./models/product-review");
 // const moment = require("moment");
-// const cron = require("node-cron");
+const cron = require("cron");
 dotenv.config();
 const PORT = process.env.PORT;
 
@@ -64,6 +65,9 @@ Product.hasMany(ProductDesc);
 ProductKeyFeature.belongsTo(Product);
 Product.hasMany(ProductKeyFeature);
 
+ProductReview.belongsTo(Product);
+Product.hasMany(ProductReview);
+
 Stock.belongsTo(Product);
 Product.hasMany(Stock);
 
@@ -76,13 +80,22 @@ Category.hasMany(SubCategory, {
   foreignKey: "categoryName",
 });
 
-Product.belongsTo(SubCategory, {
+// Product.belongsTo(SubCategory, {
+//   targetKey: "name",
+//   foreignKey: "subCategoryName",
+// });
+// SubCategory.hasMany(Product, {
+//   sourceKey: "name",
+//   foreignKey: "subCategoryName",
+// });
+
+Product.belongsTo(Category, {
   targetKey: "name",
-  foreignKey: "subCategoryName",
+  foreignKey: "categoryName",
 });
-SubCategory.hasMany(Product, {
+Category.hasMany(Product, {
   sourceKey: "name",
-  foreignKey: "subCategoryName",
+  foreignKey: "categoryName",
 });
 
 Tag.belongsTo(Product);
