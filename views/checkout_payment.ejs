@@ -42,7 +42,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="col-lg-3">
                                     <div class="step">
                                         <a href="">
@@ -54,7 +53,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="col-lg-3">
                                     <div class="step active">
                                         <a href="">
@@ -65,7 +63,6 @@
                                         </a>
                                     </div>
                                 </div>
-
 
                                 <div class="col-lg-3">
                                     <div class="step">
@@ -100,27 +97,6 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-4 col-form-label text-lg-right">Payment Types <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-md-8">
-                                    <ul class="list-inline payment-type">
-                                        <li class="active"><a href="#" data-click="set-payment" data-value="Paypal"
-                                                data-toggle="tooltip" data-title="Paypal" data-placement="top"
-                                                data-trigger="hover"><i class="fab fa-cc-paypal"></i></a></li>
-                                        <li><a href="#" data-click="set-payment" data-value="Visa" data-toggle="tooltip"
-                                                data-title="Visa" data-placement="top" data-trigger="hover"><i
-                                                    class="fab fa-cc-visa"></i></a></li>
-                                        <li><a href="#" data-click="set-payment" data-value="Master Card"
-                                                data-toggle="tooltip" data-title="Master Card" data-placement="top"
-                                                data-trigger="hover"><i class="fab fa-cc-mastercard"></i></a></li>
-                                        <li><a href="#" data-click="set-payment" data-value="Credit Card"
-                                                data-toggle="tooltip" data-title="Credit Card" data-placement="top"
-                                                data-trigger="hover"><i class="fab fa-cc-discover"></i></a></li>
-                                    </ul>
-                                    <input type="hidden" name="payment_type" value="" data-id="payment-type" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
                                 <label class="col-md-4 col-form-label text-lg-right">Expiration Date <span
                                         class="text-danger">*</span></label>
                                 <div class="col-md-8">
@@ -149,21 +125,20 @@
                                         <input type="text" name="number" placeholder=""
                                             class="form-control required p-l-5 p-r-5 text-center" />
                                     </div>
-                                    <a href="#" class="text-muted f-s-12 pull-left m-t-5 p-t-2"><i
-                                            class="fa fa-question-circle"></i> What's this?</a>
                                 </div>
                             </div>
                         </div>
 
 
                         <div class="checkout-footer">
-                            <a href="checkout_info.html" class="btn btn-white btn-theme pull-left">BACK</a>
                             <button type="submit" class="btn btn-inverse btn-theme m-l-10">PROCEED</button>
                         </div>
 
                     </form>
                 </div>
+            </div>
+            <br>
 
-                <%- include("./footer.ejs") %>
+            <%- include("./footer.ejs") %>
 
 </html>

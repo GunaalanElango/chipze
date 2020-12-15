@@ -53,12 +53,13 @@
                         <div class="product-info">
 
                             <div class="product-info-header">
-                                <h1 class="product-title"><span class="badge bg-primary">41% OFF</span>
+                                <h1 class="product-title">
+                                    <% if (product.discountPercentage) { %>
+                                    <span class="badge bg-primary"><%= product.discountPercentage %>% OFF</span>
+                                    <% } %>
                                     <%= product.name %> </h1>
                                 <ul class="product-category">
-                                    <li><a href="#"><%= product.subcategory.categoryName %></a></li>
-                                    <li>/</li>
-                                    <li><a href="#"><%= product.subcategory.name %></a></li>
+                                    <li><a href="#"><%= product.categoryName %></a></li>
                                 </ul>
                             </div>
 
@@ -78,6 +79,7 @@
                                 <% } %>
                             </ul>
 
+
                             <div class="product-purchase-container">
                                 <div class="product-discount">
                                     <span class="discount">&#8377; <%= product.originalPrice %></span>
@@ -85,10 +87,31 @@
                                 <div class="product-price">
                                     <div class="price">&#8377; <%= product.sellingPrice %></div>
                                 </div>
-                                <form action="/customer/add-to-cart/<%= product.id %>" method="POST">
-                                    <button class="btn btn-inverse btn-theme btn-lg width-200">ADD TO
-                                        CART</button>
-                                </form>
+                                <% if (customer.type === "admin") { %>
+                                <div style="display: flex;">
+                                    <form style="margin-right: 10px;" action="" method="POST">
+                                        <button class="btn btn-inverse btn-theme btn-lg width-200">UPDATE</button>
+                                    </form>
+                                    <form action="/admin-panel/delete-product/<%= product.id %>" method="POST">
+                                        <button class="btn btn-inverse btn-theme btn-lg width-200"
+                                            style="background: #b94f41;border-color: #b94f41;">DELETE</button>
+                                    </form>
+                                </div>
+                                <% } else { %>
+                                <div style="display: flex;">
+                                    <form style="margin-right: 10px;" action="/customer/add-to-cart/<%= product.id %>"
+                                        method="POST">
+                                        <button class="btn btn-inverse btn-theme btn-lg width-200">ADD TO
+                                            CART</button>
+                                    </form>
+                                    <form action="/customer/add-to-wishlist/<%= product.id %>" method="POST">
+                                        <button class="btn btn-inverse btn-theme btn-lg width-200"
+                                            style="background: #1e7c77; padding-left: 5px; padding-right: 5px; border-color: #1e7c77;">ADD
+                                            TO
+                                            WISHLIST</button>
+                                    </form>
+                                </div>
+                                <% } %>
 
                             </div>
 
@@ -250,122 +273,37 @@
                 </div>
 
 
-                <h4 class="m-b-15 m-t-30">You Might Also Like</h4>
+                <h4 class="m-b-15 m-t-30">Suggested Products</h4>
                 <div class="row row-space-10">
+                    <% for (let relatedProduct of relatedProducts) { %>
                     <div class="col-lg-2 col-md-4">
 
                         <div class="item item-thumbnail">
-                            <a href="product_detail.html" class="item-image">
-                                <img src="../assets/img/product/product-iphone.png" alt="">
-                                <div class="discount">15% OFF</div>
+                            <a href="/customer/product-detail-home/<%= relatedProduct.id %>" class="item-image">
+                                <img src="<%= relatedProduct.indexImage %>" alt="">
+                                <% if (relatedProduct.discountPercentage) { %>
+                                <div class="discount"><%= relatedProduct.discountPercentage %>% OFF</div>
+                                <% } %>
                             </a>
                             <div class="item-info">
                                 <h4 class="item-title">
-                                    <a href="product_detail.html">iPhone 6s Plus<br>16GB</a>
+                                    <a href="/customer/product-detail-home/<%= relatedProduct.id %>"><%= relatedProduct.name %></a>
                                 </h4>
-                                <p class="item-desc">3D Touch. 12MP photos. 4K video.</p>
-                                <div class="item-price">$649.00</div>
-                                <div class="item-discount-price">$739.00</div>
+                                <div class="item-price">&#8377; <%= relatedProduct.originalPrice %></div>
+                                <div class="item-discount-price">&#8377; <%= relatedProduct.sellingPrice %></div>
                             </div>
                         </div>
 
                     </div>
-                    <div class="col-lg-2 col-md-4">
+                    <% } %>
 
-                        <div class="item item-thumbnail">
-                            <a href="product_detail.html" class="item-image">
-                                <img src="../assets/img/product/product-samsung-note5.png" alt="">
-                                <div class="discount">32% OFF</div>
-                            </a>
-                            <div class="item-info">
-                                <h4 class="item-title">
-                                    <a href="product.html">Samsung Galaxy Note 5<br>Black</a>
-                                </h4>
-                                <p class="item-desc">Super. Computer. Now in two sizes.</p>
-                                <div class="item-price">$599.00</div>
-                                <div class="item-discount-price">$799.00</div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-2 col-md-4">
-
-                        <div class="item item-thumbnail">
-                            <a href="product_detail.html" class="item-image">
-                                <img src="../assets/img/product/product-iphone-se.png" alt="">
-                                <div class="discount">20% OFF</div>
-                            </a>
-                            <div class="item-info">
-                                <h4 class="item-title">
-                                    <a href="product.html">iPhone SE<br>32/64Gb</a>
-                                </h4>
-                                <p class="item-desc">A big step for small.</p>
-                                <div class="item-price">$499.00</div>
-                                <div class="item-discount-price">$599.00</div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-2 col-md-4">
-
-                        <div class="item item-thumbnail">
-                            <a href="product_detail.html" class="item-image">
-                                <img src="../assets/img/product/product-zenfone2.png" alt="">
-                                <div class="discount">15% OFF</div>
-                            </a>
-                            <div class="item-info">
-                                <h4 class="item-title">
-                                    <a href="product_detail.html">Assus ZenFone 2<br>‏(ZE550ML)</a>
-                                </h4>
-                                <p class="item-desc">See What Others Can’t See</p>
-                                <div class="item-price">$399.00</div>
-                                <div class="item-discount-price">$453.00</div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-2 col-md-4">
-
-                        <div class="item item-thumbnail">
-                            <a href="product_detail.html" class="item-image">
-                                <img src="../assets/img/product/product-xperia-z.png" alt="">
-                                <div class="discount">32% OFF</div>
-                            </a>
-                            <div class="item-info">
-                                <h4 class="item-title">
-                                    <a href="product.html">Sony Xperia Z<br>Black Color</a>
-                                </h4>
-                                <p class="item-desc">For unexpectedly beautiful moments</p>
-                                <div class="item-price">$599.00</div>
-                                <div class="item-discount-price">$799.00</div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-2 col-md-4">
-
-                        <div class="item item-thumbnail">
-                            <a href="product_detail.html" class="item-image">
-                                <img src="../assets/img/product/product-lumia-532.png" alt="">
-                                <div class="discount">20% OFF</div>
-                            </a>
-                            <div class="item-info">
-                                <h4 class="item-title">
-                                    <a href="product.html">Microsoft Lumia 531<br>Smartphone Orange</a>
-                                </h4>
-                                <p class="item-desc">1 Year Local Manufacturer Warranty</p>
-                                <div class="item-price">$99.00</div>
-                                <div class="item-discount-price">$199.00</div>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
-
             </div>
 
         </div>
 
-        <%- include("./footer.ejs") %>
+    </div>
+
+    <%- include("./footer.ejs") %>
 
 </html>

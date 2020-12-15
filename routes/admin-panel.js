@@ -12,7 +12,9 @@ const { ProductImage } = require("../models/product-image");
 const { Stock } = require("../models/stock");
 const { ProductKeyFeature } = require("../models/product-key-feature");
 const { Category } = require("../models/category");
-const { SubCategory } = require("../models/sub-category");
+const { Order, OrderProduct } = require("../models/order");
+const { Customer } = require("../models/customer");
+const path = require("path");
 const chalk = require("chalk");
 let PRODUCT_ID = 0;
 
@@ -34,15 +36,16 @@ router.post("/add-multiple-product", workBookUpload, async (req, res, next) => {
         const [category, created] = await Category.findOrCreate({
           where: { name: product.categoryName },
         });
-        // const [subCategory, isCreated] = await SubCategory.findOrCreate({
-        //   where: { name: product.subCategoryName, categoryName: category.name },
-        // });
+        let discountAmount = parseInt(
+          product.originalPrice * (product.discount / 100)
+        );
         const createdProduct = await Product.create({
           name: product.name,
           originalPrice: product.originalPrice,
-          sellingPrice: product.originalPrice,
+          sellingPrice: product.originalPrice - discountAmount,
           indexImage: "/images/product-image/" + product.indexImage,
           categoryName: category.name,
+          discountPercentage: product.discount,
         });
         PRODUCT_ID = createdProduct.id;
         await Stock.create({
@@ -104,12 +107,15 @@ router.post(
         originalPrice,
         keyFeature,
         categoryName,
+        discount,
       } = req.body;
+      let discountAmount = parseInt(originalPrice * (discount / 100));
       const createdProduct = await Product.create({
         name,
         originalPrice,
-        sellingPrice: originalPrice,
+        sellingPrice: originalPrice - discountAmount,
         indexImage: "/images/product-image/" + req.files[0].filename,
+        discountPercentage: discount,
         categoryName,
       });
       if (typeof descName === "object") {
@@ -172,10 +178,45 @@ router.post(
   }
 );
 
+router.post("/delete-product/:productId", async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.productId);
+    let imageName = product.indexImage.split("/")[3];
+    fs.unlinkSync(path.join("public", "images", "product-image", imageName));
+    const productImage = await ProductImage.findAll({
+      where: { productId: req.params.productId },
+    });
+    for (let image of productImage) {
+      let imageNames = image.extraImage.split("/")[3];
+      fs.unlinkSync(path.join("public", "images", "product-image", imageNames));
+    }
+    await product.destroy();
+    res.redirect("/customer/index");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.get("/add-category", async (req, res, next) => {
   try {
     const categories = await Category.findAll();
     res.render("adminpanel/add-category", { categories });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/order-details", async (req, res, next) => {
+  try {
+    const orderDetails = await Order.findAll({
+      include: [{ model: OrderProduct, required: false }],
+    });
+    orderDetails.forEach((c) => console.log(c.toJSON()));
+    const customer = await Customer.findByPk(req.session.customerId);
+    res.render("adminpanel/order-detail", {
+      orderDetails,
+      customer,
+    });
   } catch (error) {
     console.log(error);
   }

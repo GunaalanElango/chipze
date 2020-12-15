@@ -34,6 +34,11 @@ const Customer = sequelize.define("customers", {
     type: Sequelize.INTEGER(6),
     allowNull: true,
   },
+  type: {
+    type: Sequelize.ENUM(["customer", "admin"]),
+    allowNull: true,
+    defaultValue: "customer",
+  },
 });
 
 module.exports = { Customer };

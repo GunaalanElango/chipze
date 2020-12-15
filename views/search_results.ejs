@@ -48,14 +48,14 @@
                                 </div>
 
 
-                                <div class="col-lg-6 text-right">
+                                <!-- <div class="col-lg-6 text-right">
                                     <ul class="sort-list">
                                         <li class="text"> Sort by:</li>
                                         <li class="active"><a href="#">Popular</a></li>
                                         <li><a href="#">Discount</a></li>
                                         <li><a href="#">Price</a></li>
                                     </ul>
-                                </div>
+                                </div> -->
 
                             </div>
 
@@ -67,7 +67,9 @@
                                 <div class="item item-thumbnail">
                                     <a href="/customer/product-detail-home/<%= product.id %>" class="item-image">
                                         <img src="<%= product.indexImage %>" alt="" />
-                                        <div class="discount">15% OFF</div>
+                                        <% if (product.discountPercentage) { %>
+                                        <div class="discount"><%= product.discountPercentage %>% OFF</div>
+                                        <% } %>
                                     </a>
                                     <div class="item-info">
                                         <h4 class="item-title">

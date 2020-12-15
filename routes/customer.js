@@ -8,11 +8,13 @@ const { Specification } = require("../models/specification");
 const { CartProduct } = require("../models/cart-product");
 const chalk = require("chalk");
 const { Category } = require("../models/category");
-const { SubCategory } = require("../models/sub-category");
 const { Customer } = require("../models/customer");
 const { Op } = require("sequelize");
 const { ProductReview } = require("../models/product-review");
 const moment = require("moment");
+const { isAuth } = require("../middleware/is-auth");
+const { WishList } = require("../models/wishlist");
+const { Order, OrderProduct } = require("../models/order");
 
 router.get("/product-detail-home/:productId", async (req, res, next) => {
   try {
@@ -59,6 +61,13 @@ router.get("/product-detail-home/:productId", async (req, res, next) => {
     const cartProducts = await CartProduct.findAll({
       where: { customerId: req.session.customerId },
     });
+    const relatedProducts = await Product.findAll({
+      where: {
+        categoryName: product.categoryName,
+        id: { [Op.not]: product.id },
+      },
+      limit: 6,
+    });
     const categories = await Category.findAll();
     const customer = await Customer.findByPk(req.session.customerId);
     let isAuthenticated = req.session.isLoggedIn;
@@ -74,6 +83,7 @@ router.get("/product-detail-home/:productId", async (req, res, next) => {
       categories,
       reviews: product_reviews,
       customer: customer.toJSON(),
+      relatedProducts,
     });
   } catch (error) {
     console.log(chalk.greenBright(error));
@@ -131,7 +141,7 @@ router.post("/search-result", async (req, res, next) => {
   }
 });
 
-router.get("/index", async (req, res, next) => {
+router.get("/index", isAuth, async (req, res, next) => {
   try {
     const products = await Product.findAll({
       limit: 6,
@@ -189,7 +199,7 @@ router.get("/checkout-cart", async (req, res, next) => {
 router.post("/add-to-cart/:productId", async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.productId);
-    const createCart = await CartProduct.create({
+    await CartProduct.create({
       customerId: req.session.customerId,
       productId: req.params.productId,
       totalPrice: product.sellingPrice,
@@ -247,11 +257,13 @@ router.post("/checkout-info", async (req, res, next) => {
   try {
     const cartProducts = await CartProduct.findAll();
     const categories = await Category.findAll();
+    const customer = await Customer.findByPk(req.session.customerId);
     let isAuthenticated = req.session.isLoggedIn;
     res.render("checkout_info", {
       totalCartItems: cartProducts.length,
       isAuthenticated,
       categories,
+      customer,
     });
   } catch (error) {
     console.log(error);
@@ -265,10 +277,41 @@ router.post("/checkout-complete", async (req, res, next) => {
     });
     const categories = await Category.findAll();
     let isAuthenticated = req.session.isLoggedIn;
+    for (let cart of cartProducts) {
+      const stock = await Stock.findOne({
+        where: { productId: cart.productId },
+      });
+      if (parseInt(stock.available) <= 0) {
+        return res.redirect("/customer/checkout-payment");
+      }
+    }
+    const createOrder = await Order.create({
+      customerId: req.session.customerId,
+    });
+    let totalOrderPrice = 0;
+    for (let cart of cartProducts) {
+      const createOrderProduct = await OrderProduct.create({
+        productId: cart.productId,
+        quantity: cart.quantity,
+        totalPrice: cart.totalPrice,
+        orderId: createOrder.id,
+      });
+      totalOrderPrice += cart.totalPrice;
+      const stock = await Stock.findOne({
+        where: { productId: cart.productId },
+      });
+      stock.sold += cart.quantity;
+      stock.available -= cart.quantity;
+      stock.save();
+    }
+    createOrder.status = "pending";
+    createOrder.totalPrice = totalOrderPrice;
+    createOrder.save();
     res.render("checkout_complete", {
       totalCartItems: cartProducts.length,
       isAuthenticated,
       categories,
+      orderId: createOrder.id,
     });
   } catch (error) {
     console.log(error);
@@ -354,12 +397,82 @@ router.post("/login", async (req, res, next) => {
     if (!findCustomer) {
       return res.redirect("/customer/login");
     }
-    if (!(findCustomer.password === req.body.password)) {
+    if (findCustomer.password !== req.body.password) {
       return res.redirect("/customer/login");
     }
     req.session.isLoggedIn = true;
     req.session.customerId = findCustomer.id;
     res.redirect("/customer/index");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/logout", isAuth, async (req, res, next) => {
+  try {
+    req.session.destroy();
+    res.redirect("/customer/login");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/wishlist", async (req, res, next) => {
+  try {
+    const wishListProducts = await WishList.findAll({
+      where: { customerId: req.session.customerId },
+      include: [
+        {
+          model: Product,
+          required: false,
+        },
+      ],
+    });
+    const cartProducts = await CartProduct.findAll({
+      where: { customerId: req.session.customerId },
+      include: [
+        {
+          model: Product,
+          required: false,
+        },
+      ],
+    });
+    const categories = await Category.findAll();
+    let totalCartPrice = 0;
+    for (let cart of cartProducts) {
+      totalCartPrice += cart.totalPrice;
+    }
+    let isAuthenticated = req.session.isLoggedIn;
+    res.render("wishlist", {
+      wishListProducts,
+      totalCartItems: cartProducts.length,
+      totalCartPrice,
+      isAuthenticated,
+      categories,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/add-to-wishlist/:productId", isAuth, async (req, res, next) => {
+  try {
+    const createWishlist = await WishList.create({
+      customerId: req.session.customerId,
+      productId: req.params.productId,
+    });
+    res.redirect("/customer/wishlist");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/remove-wishlist/:productId", async (req, res, next) => {
+  try {
+    await WishList.destroy({
+      where: { productId: req.params.productId },
+    });
+    res.redirect("/customer/wishlist");
   } catch (error) {
     console.log(error);
   }

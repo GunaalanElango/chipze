@@ -9,18 +9,16 @@ const authRoutes = require("./routes/authentication");
 const customerRoutes = require("./routes/customer");
 const { Product } = require("./models/product");
 const { ProductImage } = require("./models/product-image");
-const { SubCategory } = require("./models/sub-category");
 const { Category } = require("./models/category");
 const { Specification } = require("./models/specification");
-const { Tag } = require("./models/tag");
 const { CartProduct } = require("./models/cart-product");
 const { Customer } = require("./models/customer");
 const { ProductDesc } = require("./models/product-desc");
 const { ProductKeyFeature } = require("./models/product-key-feature");
 const { Stock } = require("./models/stock");
 const { ProductReview } = require("./models/product-review");
-// const moment = require("moment");
-const cron = require("cron");
+const { WishList } = require("./models/wishlist");
+const { Order, OrderProduct } = require("./models/order");
 dotenv.config();
 const PORT = process.env.PORT;
 
@@ -47,11 +45,23 @@ app.use("/admin-panel", adminRoutes);
 app.use("/auth", authRoutes);
 app.use("/customer", customerRoutes);
 
-Specification.belongsTo(Product);
-Product.hasMany(Specification);
+Specification.belongsTo(Product, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
+Product.hasMany(Specification, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
 
-ProductImage.belongsTo(Product);
-Product.hasMany(ProductImage);
+ProductImage.belongsTo(Product, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
+Product.hasMany(ProductImage, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
 
 CartProduct.belongsTo(Product);
 Product.hasMany(CartProduct);
@@ -59,35 +69,41 @@ Product.hasMany(CartProduct);
 CartProduct.belongsTo(Customer);
 Customer.hasMany(CartProduct);
 
-ProductDesc.belongsTo(Product);
-Product.hasMany(ProductDesc);
-
-ProductKeyFeature.belongsTo(Product);
-Product.hasMany(ProductKeyFeature);
-
-ProductReview.belongsTo(Product);
-Product.hasMany(ProductReview);
-
-Stock.belongsTo(Product);
-Product.hasMany(Stock);
-
-SubCategory.belongsTo(Category, {
-  targetKey: "name",
-  foreignKey: "categoryName",
+ProductDesc.belongsTo(Product, {
+  constraints: true,
+  onDelete: "CASCADE"
 });
-Category.hasMany(SubCategory, {
-  sourceKey: "name",
-  foreignKey: "categoryName",
+Product.hasMany(ProductDesc, {
+  constraints: true,
+  onDelete: "CASCADE"
 });
 
-// Product.belongsTo(SubCategory, {
-//   targetKey: "name",
-//   foreignKey: "subCategoryName",
-// });
-// SubCategory.hasMany(Product, {
-//   sourceKey: "name",
-//   foreignKey: "subCategoryName",
-// });
+ProductKeyFeature.belongsTo(Product, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
+Product.hasMany(ProductKeyFeature, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
+
+ProductReview.belongsTo(Product, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
+Product.hasMany(ProductReview, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
+
+Stock.belongsTo(Product, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
+Product.hasMany(Stock, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
 
 Product.belongsTo(Category, {
   targetKey: "name",
@@ -98,8 +114,20 @@ Category.hasMany(Product, {
   foreignKey: "categoryName",
 });
 
-Tag.belongsTo(Product);
-Product.hasMany(Tag);
+WishList.belongsTo(Product);
+Product.hasMany(WishList);
+
+WishList.belongsTo(Customer);
+Customer.hasMany(WishList);
+
+Order.belongsTo(Customer);
+Customer.hasMany(Order);
+
+OrderProduct.belongsTo(Product);
+Product.hasMany(OrderProduct);
+
+OrderProduct.belongsTo(Order);
+Order.hasMany(OrderProduct);
 
 sequelize
   .sync({ force: false, alter: false })

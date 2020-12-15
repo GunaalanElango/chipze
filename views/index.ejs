@@ -32,13 +32,13 @@
               <div class="container">
                 <h3 class="title m-b-5 fadeInLeftBig animated">iMac</h3>
                 <p class="m-b-15 fadeInLeftBig animated">The vision is brighter than ever.</p>
-                <div class="price m-b-30 fadeInLeftBig animated"><small>from</small> <span>$2299.00</span></div>
+                <div class="price m-b-30 fadeInLeftBig animated"><small>from</small> <span>&#8377; 2299.00</span></div>
                 <a href="product_detail.html" class="btn btn-outline btn-lg fadeInLeftBig animated">Buy Now</a>
               </div>
             </div>
           </div>
 
-          <div class="carousel-item" data-paroller="true" data-paroller-factor="-0.3" data-paroller-factor-sm="0.01"
+          <!-- <div class="carousel-item" data-paroller="true" data-paroller-factor="-0.3" data-paroller-factor-sm="0.01"
             data-paroller-factor-xs="0.01" style="
                 background: url(../assets/img/slider/slider-2-cover.jpg) center 0 / cover
                   no-repeat;
@@ -66,11 +66,11 @@
               <div class="container">
                 <h3 class="title m-b-5 fadeInDownBig animated">Macbook Air</h3>
                 <p class="m-b-15 fadeInDownBig animated">Thin.Light.Powerful.<br />And ready for anything</p>
-                <div class="price fadeInDownBig animated"><small>from</small> <span>$999.00</span></div>
+                <div class="price fadeInDownBig animated"><small>from</small> <span>&#8377;999.00</span></div>
                 <a href="product_detail.html" class="btn btn-outline btn-lg fadeInUpBig animated">Buy Now</a>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <!-- <a class="carousel-control-prev" href="#main-carousel" data-slide="prev">
@@ -174,7 +174,9 @@
             <div class="item item-thumbnail">
               <a href="/customer/product-detail-home/<%= product.id %>" class="item-image">
                 <img src="<%= product.indexImage %>" alt="" />
-                <div class="discount">15% OFF</div>
+                <% if (product.discountPercentage) { %>
+                <div class="discount"><%= product.discountPercentage %>% OFF</div>
+                <% } %>
               </a>
               <div class="item-info">
                 <h4 class="item-title">
@@ -324,7 +326,9 @@
                 <div class="item item-thumbnail">
                   <a href="/customer/product-detail-home/<%= laptop.id %>" class="item-image">
                     <img src="<%= laptop.indexImage %>" alt="" />
-                    <div class="discount">15% OFF</div>
+                    <% if (laptop.discountPercentage) { %>
+                    <div class="discount"><%= laptop.discountPercentage %>% OFF</div>
+                    <% } %>
                   </a>
                   <div class="item-info">
                     <h4 class="item-title">
@@ -419,7 +423,7 @@
       </div>
     </div>
 
-    <div id="tablet-list" class="section-container p-t-0">
+    <!-- <div id="tablet-list" class="section-container p-t-0">
       <div class="container">
         <h4 class="section-title clearfix">
           <a href="#" class="pull-right">SHOW ALL</a>
@@ -552,7 +556,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div id="policy" class="section-container bg-white">
       <div class="container">
@@ -590,7 +594,7 @@
       </div>
     </div> -->
 
-    <div id="subscribe" class="section-container">
+    <!-- <div id="subscribe" class="section-container">
       <div class="container">
         <div class="row">
           <div class="col-md-6 mb-4 mb-md-0">
@@ -606,17 +610,17 @@
                     <input type="text" class="form-control" name="email" placeholder="Enter Email Address" />
                     <div class="input-group-append">
                       <button type="submit" class="btn btn-inverse">Submit</button>
-                      <!-- <button type="submit" class="btn btn-inverse"
+                      <button type="submit" class="btn btn-inverse"
                           ><i class="fa fa-angle-right"></i
-                        ></button> -->
+                        ></button>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <!-- <div class="col-md-6">
+    <!-- <div class="col-md-6">
             <div class="social">
               <div class="social-intro">
                 <h4>FOLLOW US</h4>
@@ -631,11 +635,11 @@
               </div>
             </div>
           </div> -->
-        </div>
-      </div>
-    </div>
+  </div>
+  </div>
+  </div>
 
-    <%- include("./footer.ejs") %>
+  <%- include("./footer.ejs") %>
 
 </body>
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8" />
+    <title>WishList Page</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="/css/app.min.css" rel="stylesheet" />
+    <script src="/js/app.min.js" defer></script>
+    <style>
+        b {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="page-container" class="fade">
+        <%- include("./navigation-bar.ejs") %>
+        <div class="section-container" id="checkout-cart">
+            <div class="container">
+                <div class="checkout">
+                    <div class="checkout-body">
+                        <div class="table-responsive">
+                            <table class="table table-cart">
+                                <% if (wishListProducts.length > 0) {%>
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th class="text-center">Price</th>
+                                    </tr>
+                                </thead>
+                                <% } %>
+                                <tbody>
+                                    <% if (wishListProducts.length > 0) {%>
+                                    <% for (let wishProduct of wishListProducts) { %>
+                                    <tr>
+                                        <td class="cart-product">
+                                            <div class="product-img">
+                                                <img src="<%= wishProduct.product.indexImage %>" alt="" />
+                                            </div>
+                                            <div class="product-info">
+                                                <a href="/customer/product-detail-home/<%= wishProduct.product.id %>">
+                                                    <div class="title"><%= wishProduct.product.name %></div>
+                                                </a>
+                                                <a href="/customer/remove-wishlist/<%= wishProduct.product.id %>">
+                                                    <div class="desc">REMOVE</div>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="cart-price text-center">
+                                            &#8377;<%= wishProduct.product.sellingPrice %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                                    <% } else { %>
+                                    <tr>
+                                        <td>Your WishList is Empty</td>
+                                    </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include("./footer.ejs") %>
+
+</html>

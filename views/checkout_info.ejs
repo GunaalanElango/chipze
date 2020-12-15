@@ -90,7 +90,7 @@
                                     Name <span class="text-danger">*</span>
                                 </label>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" name="name" value="" placeholder="Name" />
+                                    <input type="text" class="form-control" name="name" value="<%= customer.Name %>" placeholder="Name" />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -98,7 +98,7 @@
                                     Address<span class="text-danger">&nbsp;</span>
                                 </label>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" name="address" value="" placeholder="Address" />
+                                    <input type="text" class="form-control" name="address" value="<%= customer.address %>" placeholder="Address" />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -106,7 +106,7 @@
                                     District<span class="text-danger">*</span>
                                 </label>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" name="district" value="" placeholder="District" />
+                                    <input type="text" class="form-control" name="district" value="<%= customer.district %>" placeholder="District" />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -114,7 +114,7 @@
                                     Phone Number <span class="text-danger">*</span>
                                 </label>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" name="phoneNumber" value=""
+                                    <input type="text" class="form-control" name="phoneNumber" value="<%= customer.alternatePhoneNumber %>"
                                         placeholder="Phone Number" />
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                                     PIN Code<span class="text-danger">*</span>
                                 </label>
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" name="pinCode" value="" placeholder="632035" />
+                                    <input type="text" class="form-control" name="pinCode" value="<%= customer.pincode %>" placeholder="632035" />
                                     <!-- <p class="form-text m-b-0 f-s-12 text-muted f-w-600 m-t-10">Enter ZIP for City and
                                         State ZIP Code</p> -->
                                 </div>
