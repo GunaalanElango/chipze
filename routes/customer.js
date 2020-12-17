@@ -47,6 +47,7 @@ router.get("/product-detail-home/:productId", async (req, res, next) => {
         {
           model: ProductReview,
           required: false,
+          include: [{ model: Customer, required: false }],
         },
       ],
     });
@@ -107,7 +108,7 @@ router.get("/product-page", async (req, res, next) => {
   }
 });
 
-router.post("/search-result", async (req, res, next) => {
+router.post("/search-result/:withFilterOption", async (req, res, next) => {
   try {
     let isAuthenticated = req.session.isLoggedIn;
     const cartProducts = await CartProduct.findAll({
@@ -116,16 +117,35 @@ router.post("/search-result", async (req, res, next) => {
     const categories = await Category.findAll();
     const searchValues = req.body.searchValue.split(" ");
     let products = [];
-    for (let searchValue of searchValues) {
-      const prod = await Product.findAll({
-        where: { name: { [Op.substring]: searchValue } },
-      });
-      for (let p of prod) {
-        const pr = products.find((product) => {
-          return product.id === p.id;
+    if (req.params.withFilterOption == "true") {
+      for (let searchValue of searchValues) {
+        const prod = await Product.findAll({
+          where: {
+            name: { [Op.substring]: searchValue },
+            sellingPrice: { [Op.between]: [req.body.priceFrom, req.body.priceTo] },
+          },
         });
-        if (!pr) {
-          products.push(p.toJSON());
+        for (let p of prod) {
+          const pr = products.find((product) => {
+            return product.id === p.id;
+          });
+          if (!pr) {
+            products.push(p.toJSON());
+          }
+        }
+      }
+    } else {
+      for (let searchValue of searchValues) {
+        const prod = await Product.findAll({
+          where: { name: { [Op.substring]: searchValue } },
+        });
+        for (let p of prod) {
+          const pr = products.find((product) => {
+            return product.id === p.id;
+          });
+          if (!pr) {
+            products.push(p.toJSON());
+          }
         }
       }
     }
@@ -325,7 +345,6 @@ router.post("/checkout-payment", async (req, res, next) => {
     });
     const updateCustomerAddress = await Customer.update(
       {
-        name: req.body.name,
         address: req.body.address,
         district: req.body.district,
         alternatePhoneNumber: req.body.phoneNumber,
@@ -355,6 +374,7 @@ router.post("/product-review", async (req, res, next) => {
       rating: req.body.rating,
       comment: req.body.comment,
       productId: req.body.productId,
+      customerId: req.session.customerId,
     });
     res.redirect(`/customer/product-detail-home/${req.body.productId}`);
   } catch (error) {
@@ -473,6 +493,47 @@ router.get("/remove-wishlist/:productId", async (req, res, next) => {
       where: { productId: req.params.productId },
     });
     res.redirect("/customer/wishlist");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/my-orders", async (req, res, next) => {
+  try {
+    const orderDetails = await Order.findAll({
+      where: { customerId: req.session.customerId },
+      include: [{ model: Customer, required: false }],
+    });
+    const cartProducts = await CartProduct.findAll({
+      where: { customerId: req.session.customerId },
+    });
+    const categories = await Category.findAll();
+    let isAuthenticated = req.session.isLoggedIn;
+    res.render("my-orders", {
+      totalCartItems: cartProducts.length,
+      isAuthenticated,
+      categories,
+      orderDetails,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/order-detail-page/:orderId", async (req, res, next) => {
+  try {
+    const order = await Order.findByPk(req.params.orderId, {
+      include: [
+        {
+          model: OrderProduct,
+          required: false,
+          include: [{ model: Product, required: false }],
+        },
+        { model: Customer, required: false },
+      ],
+    });
+    console.log(order.toJSON());
+    res.render("order-detail-page", { order });
   } catch (error) {
     console.log(error);
   }

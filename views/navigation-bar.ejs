@@ -49,13 +49,14 @@
                                 <% } %>
                             </div>
                         </li>
-
+                        <% if (isAuthenticated) { %>
                         <li><a href="/customer/wishlist">WishList</a></li>
-
+                        <li><a href="/customer/my-orders">My Orders</a></li>
+                        <% } %>
                         <li style="padding-top: 20px;">
-                            <form action="/customer/search-result" method="POST" name="search_form">
+                            <form action="/customer/search-result/false" method="POST" name="search_form">
                                 <div class="input-group">
-                                    <input style="width: 300px;" type="text" placeholder="Search Products by name"
+                                    <input style="width: 250px;" type="text" placeholder="Search Products by name"
                                         name="searchValue" class="form-control bg-silver-lighter" />
                                     <div class="input-group-append">
                                         <button class="btn btn-inverse" type="submit">Search</button>

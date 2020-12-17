@@ -89,7 +89,7 @@
                                 </div>
                                 <% if (customer.type === "admin") { %>
                                 <div style="display: flex;">
-                                    <form style="margin-right: 10px;" action="" method="POST">
+                                    <form style="margin-right: 10px;" action="/admin-panel/update-product/<%= product.id %>" method="GET">
                                         <button class="btn btn-inverse btn-theme btn-lg width-200">UPDATE</button>
                                     </form>
                                     <form action="/admin-panel/delete-product/<%= product.id %>" method="POST">
@@ -203,7 +203,7 @@
                                                 <div class="review-rate">
                                                     Rating => (<%= review.rating %>/5)
                                                 </div>
-                                                <div class="review-name"><%= customer.name %></div>
+                                                <div class="review-name"><%= review.customer.name %></div>
                                                 <div class="review-date"><%= review.date %></div>
                                             </div>
                                             <div class="review-title">

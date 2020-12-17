@@ -36,7 +36,6 @@
 						<thead>
 							<tr>
 								<th width="1%">Id</th>
-								<th width="1%" data-orderable="false"></th>
 								<th class="text-nowrap">Customer Name</th>
 								<th class="text-nowrap">Address</th>
 								<th class="text-nowrap">phoneNumber</th>
@@ -48,10 +47,10 @@
 							<% for (let order of orderDetails) { %>
 							<tr class="odd gradeX">
 								<td width="1%" class="f-w-600 text-inverse"><%= order.id %></td>
-								<td width="1%" class="with-img"><img src="" class="img-rounded height-30" /></td>
-								<td><%= customer.name %></td>
-								<td><%= customer.address %> - <%= customer.pincode %>, <%= customer.district %></td>
-								<td><%= customer.alternatePhoneNumber %></td>
+								<td><%= order.customer.name %></td>
+								<td><%= order.customer.address %> - <%= order.customer.pincode %>,
+									<%= order.customer.district %></td>
+								<td><%= order.customer.alternatePhoneNumber %></td>
 								<td style="color: indianred;"><%= order.status %></td>
 								<td><%= order.totalPrice %></td>
 							</tr>
@@ -64,9 +63,6 @@
 			</div>
 
 		</div>
-
-
-
 	</div>
 	</div>
 </body>

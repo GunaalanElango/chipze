@@ -96,6 +96,15 @@ Product.hasMany(ProductReview, {
   onDelete: "CASCADE"
 });
 
+ProductReview.belongsTo(Customer, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
+Customer.hasMany(ProductReview, {
+  constraints: true,
+  onDelete: "CASCADE"
+});
+
 Stock.belongsTo(Product, {
   constraints: true,
   onDelete: "CASCADE"

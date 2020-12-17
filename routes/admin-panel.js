@@ -178,6 +178,177 @@ router.post(
   }
 );
 
+router.get("/update-product/:productId", async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.productId, {
+      include: [
+        {
+          model: ProductDesc,
+          required: false,
+        },
+        {
+          model: Category,
+          required: false,
+        },
+        {
+          model: ProductKeyFeature,
+          required: false,
+        },
+        {
+          model: Specification,
+          required: false,
+        },
+        {
+          model: Stock,
+          required: false,
+        },
+        {
+          model: ProductImage,
+          required: false,
+        },
+      ],
+    });
+    const {
+      product_descriptions,
+      product_keyfeatures,
+      specifications,
+      stocks,
+      product_images,
+    } = product.toJSON();
+    const categories = await Category.findAll();
+    res.render("adminpanel/update-product", {
+      stock: stocks[0],
+      descriptions: product_descriptions,
+      keyFeatures: product_keyfeatures,
+      images: product_images,
+      specifications,
+      product: product.toJSON(),
+      categories,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/update-product", async (req, res, next) => {
+  try {
+    const {
+      name,
+      descName,
+      descValue,
+      descId,
+      specId,
+      keyFeatureId,
+      specName,
+      specValue,
+      availableStock,
+      originalPrice,
+      keyFeature,
+      categoryName,
+      discount,
+      productId,
+    } = req.body;
+    let discountAmount = parseInt(originalPrice * (discount / 100));
+    await Product.update(
+      {
+        name,
+        originalPrice,
+        // indexImage: "/images/product-image/" + req.files[0].filename,
+        sellingPrice: originalPrice - discountAmount,
+        discountPercentage: discount,
+        categoryName,
+      },
+      {
+        where: { id: productId },
+      }
+    );
+    if (typeof descName === "object") {
+      for (let i = 0; i <= descName.length; i++) {
+        await ProductDesc.update(
+          {
+            name: descName[i],
+            value: descValue[i],
+          },
+          {
+            where: { id: descId[i] },
+          }
+        );
+      }
+    } else {
+      await ProductDesc.update(
+        {
+          name: descName,
+          value: descValue,
+        },
+        {
+          where: { id: descId },
+        }
+      );
+    }
+    if (typeof specName === "object") {
+      for (let i = 0; i <= specName.length; i++) {
+        await Specification.update(
+          {
+            name: specName[i],
+            value: specValue[i],
+          },
+          {
+            where: { id: specId[i] },
+          }
+        );
+      }
+    } else {
+      await Specification.update(
+        {
+          name: specName,
+          value: specValue,
+        },
+        {
+          id: specId,
+        }
+      );
+    }
+    if (typeof keyFeature === "object") {
+      for (let key = 0; key <= keyFeature.length; key++) {
+        await ProductKeyFeature.update(
+          {
+            keyFeature: keyFeature[key],
+          },
+          {
+            where: { id: keyFeatureId[key] },
+          }
+        );
+      }
+    } else {
+      await ProductKeyFeature.update(
+        {
+          keyFeature,
+        },
+        {
+          where: { id: keyFeatureId },
+        }
+      );
+    }
+    // for (let i = 1; i < req.files.length; i++) {
+    //   await ProductImage.create({
+    //     productId: createdProduct.id,
+    //     extraImage: "/images/product-image/" + req.files[i].filename,
+    //   });
+    // }
+    await Stock.update(
+      {
+        available: availableStock,
+      },
+      {
+        where: { productId: productId },
+      }
+    );
+    res.redirect(`/customer/product-detail-home/${productId}`);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.post("/delete-product/:productId", async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.productId);
@@ -209,13 +380,14 @@ router.get("/add-category", async (req, res, next) => {
 router.get("/order-details", async (req, res, next) => {
   try {
     const orderDetails = await Order.findAll({
-      include: [{ model: OrderProduct, required: false }],
+      where: { status: "pending" },
+      include: [
+        { model: OrderProduct, required: false },
+        { model: Customer, required: false },
+      ],
     });
-    orderDetails.forEach((c) => console.log(c.toJSON()));
-    const customer = await Customer.findByPk(req.session.customerId);
-    res.render("adminpanel/order-detail", {
+    res.render("adminpanel/pending-orders", {
       orderDetails,
-      customer,
     });
   } catch (error) {
     console.log(error);

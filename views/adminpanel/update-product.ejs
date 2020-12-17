@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Update Product</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="/css/app.min.css" rel="stylesheet" />
+    <link href="/css/adminpanel/add-single-product.css" rel="stylesheet" />
+    <script src="/js/adminpanel/app.min.css" defer></script>
+    <script src="/js/adminpanel/add-product.js" defer></script>
+</head>
+
+<body>
+    <div id="page-container" class="fade show">
+        <%- include("./navigation-bar.ejs") %>
+            <form action="/admin-panel/update-product" method="POST">
+                <h2 class="form-heading">Update Product</h2>
+                <input type="hidden" value="<%= product.id %>" name="productId">
+                <div class="form-group">
+                    <label>Category :</label>
+                    <select name="categoryName">
+                        <option value="<%= product.categoryName %>">
+                            <%= product.categoryName %>
+                        </option>
+                        <% for (let category of categories) { %>
+                            <option value="<%= category.name %>">
+                                <%= category.name %>
+                            </option>
+                            <% } %>
+                    </select>
+                </div>
+                <div class="form-group" id="product-name">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" value="<%= product.name %>" name="name">
+                </div>
+                <section class="desc-section" id="product-desc">
+                    <h2>Description</h2>
+                    <% for (let description of descriptions) { %>
+                        <div class="form-group">
+                            <input type="hidden" name="descId" value="<%= description.id %>">
+                            <input type="text" name="descName" placeholder="Description Name"
+                                value="<%= description.name %>">
+                            <textarea name="descValue" cols="30" rows="10"><%= description.value %></textarea>
+                        </div>
+                        <% } %>
+                            <h5 id="add-desc-btn">Add description</h2>
+                </section>
+                <section class="spec-section" id="product-spec">
+                    <h2>Specification</h2>
+                    <% for (let specification of specifications) { %>
+                        <div class="form-group">
+                            <input type="hidden" name="specId" value="<%= specification.id %>">
+                            <input type="text" name="specName" value="<%= specification.name %>"
+                                placeholder="Specification Name">
+                            <textarea name="specValue" cols="30" rows="10"><%= specification.value %></textarea>
+                        </div>
+                        <% } %>
+                            <h5 id="add-spec-btn">Add Specification</h2>
+                </section>
+                <section class="key-section">
+                    <h2>Key Features</h2>
+                    <% for (let keyFeature of keyFeatures) { %>
+                        <div class="form-group">
+                            <input type="hidden" name="keyFeatureId" value="<%= keyFeature.id %>">
+                            <input type="text" name="keyFeature" value="<%= keyFeature.keyFeature %>"
+                                placeholder="Key Features">
+                        </div>
+                        <% } %>
+                            <h5 id="add-key-btn">Add Key Features</h2>
+                </section>
+                <!-- <section id="product-image">
+                    <h2>Image</h2>
+                    <div class="form-group">
+                        <label for="index-image">Index Image:</label>
+                        <input type="file" id="index-image" name="productImage">
+                    </div>
+                    <h5 id="add-img-btn">Add Image</h5>
+                </section> -->
+                <div class="form-group">
+                    <label for="original-price">Original Price:</label>
+                    <input type="text" id="original-price" value="<%= product.originalPrice %>" name="originalPrice">
+                </div>
+                <div class="form-group">
+                    <label for="discount">Discount:</label>
+                    <input type="text" id="discount" value="<%= product.discountPercentage %>" name="discount">
+                </div>
+                <section>
+                    <h2>Stock Detail</h2>
+                    <div class="form-group">
+                        <input type="number" name="availableStock" value="<%= stock.available %>"
+                            placeholder="Available Stock">
+                    </div>
+                </section>
+                <button type="submit">update Product</button>
+            </form>
+</body>
+
+</html>

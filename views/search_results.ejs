@@ -76,8 +76,8 @@
                                             <a
                                                 href="/customer/product-detail-home/<%= product.id %>"><%= product.name %></a>
                                         </h4>
-                                        <div class="item-price">&#8377; <%= product.originalPrice %></div>
-                                        <div class="item-discount-price">&#8377; <%= product.sellingPrice %></div>
+                                        <div class="item-price">&#8377; <%= product.sellingPrice %></div>
+                                        <div class="item-discount-price">&#8377; <%= product.originalPrice %></div>
                                     </div>
                                 </div>
                             </div>
@@ -88,38 +88,36 @@
 
                     <div class="search-sidebar">
                         <h4 class="title">Filter By</h4>
-                        <form action="https://seantheme.com/color-admin/frontend/e-commerce/search_results.html"
-                            method="POST" name="filter_form">
-                            <div class="form-group">
+                        <form action="/customer/search-result/true"
+                            method="POST" name="filter_form" enctype="application/x-www-form-urlencoded">
+                            <!-- <div class="form-group">
                                 <label class="control-label">Keywords</label>
                                 <input type="text" class="form-control input-sm" name="keyword" value="Mobile Phones"
                                     placeholder="Enter Keywords" />
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label class="control-label">Price</label>
                                 <div class="row row-space-0">
                                     <div class="col-md-5">
-                                        <input type="number" class="form-control input-sm" name="price_from" value="10"
+                                        <input type="number" class="form-control input-sm" name="priceFrom" value="10"
                                             placeholder="Price From" />
                                     </div>
                                     <div class="col-md-2 text-center p-t-5 f-s-12 text-muted">to</div>
                                     <div class="col-md-5">
-                                        <input type="number" class="form-control input-sm" name="price_to" value="10000"
+                                        <input type="number" class="form-control input-sm" name="priceTo" value="10000"
                                             placeholder="Price To" />
                                     </div>
+                                    <input type="hidden" value="<%= searchValue %>" name="searchValue">
                                 </div>
                             </div>
                             <div class="m-b-30">
                                 <button type="submit" class="btn btn-sm btn-theme btn-inverse">FILTER</button>
-
                             </div>
                         </form>
                     </div>
 
                 </div>
-
             </div>
-
         </div>
 
         <%- include("./footer.ejs") %>
