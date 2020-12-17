@@ -122,7 +122,9 @@ router.post("/search-result/:withFilterOption", async (req, res, next) => {
         const prod = await Product.findAll({
           where: {
             name: { [Op.substring]: searchValue },
-            sellingPrice: { [Op.between]: [req.body.priceFrom, req.body.priceTo] },
+            sellingPrice: {
+              [Op.between]: [req.body.priceFrom, req.body.priceTo],
+            },
           },
         });
         for (let p of prod) {
@@ -377,6 +379,53 @@ router.post("/product-review", async (req, res, next) => {
       customerId: req.session.customerId,
     });
     res.redirect(`/customer/product-detail-home/${req.body.productId}`);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/product-page/:categoryName", async (req, res, next) => {
+  try {
+    const cartProducts = await CartProduct.findAll({
+      where: { customerId: req.session.customerId },
+    });
+    const categories = await Category.findAll();
+    let isAuthenticated = req.session.isLoggedIn;
+    const products = await Product.findAll({
+      where: { categoryName: req.params.categoryName },
+    });
+    res.render("product", {
+      totalCartItems: cartProducts.length,
+      isAuthenticated,
+      categories,
+      products: products,
+      categoryName: req.params.categoryName,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/product-filter", async (req, res, next) => {
+  try {
+    const cartProducts = await CartProduct.findAll({
+      where: { customerId: req.session.customerId },
+    });
+    const categories = await Category.findAll();
+    let isAuthenticated = req.session.isLoggedIn;
+    const products = await Product.findAll({
+      where: {
+        categoryName: req.body.categoryName,
+        sellingPrice: { [Op.between]: [req.body.priceFrom, req.body.priceTo] },
+      },
+    });
+    res.render("product", {
+      totalCartItems: cartProducts.length,
+      isAuthenticated,
+      categories,
+      products: products,
+      categoryName: req.params.categoryName,
+    });
   } catch (error) {
     console.log(error);
   }
