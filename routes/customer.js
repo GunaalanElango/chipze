@@ -551,8 +551,16 @@ router.get("/my-orders", async (req, res, next) => {
   try {
     const orderDetails = await Order.findAll({
       where: { customerId: req.session.customerId },
-      include: [{ model: Customer, required: false }],
+      include: [
+        { model: Customer, required: false },
+        {
+          model: OrderProduct,
+          required: false,
+          include: [{ model: Product, required: false }],
+        },
+      ],
     });
+    orderDetails.forEach(c => console.log(c.toJSON()))
     const cartProducts = await CartProduct.findAll({
       where: { customerId: req.session.customerId },
     });
