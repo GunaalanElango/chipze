@@ -47,20 +47,20 @@ app.use("/customer", customerRoutes);
 
 Specification.belongsTo(Product, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 Product.hasMany(Specification, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 ProductImage.belongsTo(Product, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 Product.hasMany(ProductImage, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 CartProduct.belongsTo(Product);
@@ -71,47 +71,47 @@ Customer.hasMany(CartProduct);
 
 ProductDesc.belongsTo(Product, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 Product.hasMany(ProductDesc, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 ProductKeyFeature.belongsTo(Product, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 Product.hasMany(ProductKeyFeature, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 ProductReview.belongsTo(Product, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 Product.hasMany(ProductReview, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 ProductReview.belongsTo(Customer, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 Customer.hasMany(ProductReview, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 Stock.belongsTo(Product, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 Product.hasMany(Stock, {
   constraints: true,
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 Product.belongsTo(Category, {

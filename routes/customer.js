@@ -560,7 +560,6 @@ router.get("/my-orders", async (req, res, next) => {
         },
       ],
     });
-    orderDetails.forEach(c => console.log(c.toJSON()))
     const cartProducts = await CartProduct.findAll({
       where: { customerId: req.session.customerId },
     });
@@ -589,7 +588,6 @@ router.get("/order-detail-page/:orderId", async (req, res, next) => {
         { model: Customer, required: false },
       ],
     });
-    console.log(order.toJSON());
     res.render("order-detail-page", { order });
   } catch (error) {
     console.log(error);

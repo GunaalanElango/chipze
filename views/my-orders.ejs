@@ -42,15 +42,19 @@
                                             <b>ORDER ID : </b> #<%= order.id %>
                                         </h4>
                                         <h4 class="title">
-                                            <b>STATUS : </b><%= order.status %>
+                                            <b>STATUS : </b>
+                                            <%= order.status %>
                                         </h4>
                                         <p class="location">
-                                            <b>ADDRESS : </b> <%= order.customer.address %>
+                                            <b>ADDRESS : </b>
+                                            <%= order.customer.address %>
                                                 <%= order.customer.pincode %>
                                         </p>
                                     </div>
                                     <div class="result-price">
                                         &#8377; <%= order.totalPrice %>
+                                            <a href="/customer/order-detail-page/<%= order.id %>"
+                                                class="btn btn-yellow btn-block">View Details</a>
                                     </div>
                                 </li>
                                 <% } %>

@@ -19,7 +19,7 @@ const chalk = require("chalk");
 let PRODUCT_ID = 0;
 
 router.get("/dashboard", async (req, res, next) => {
-  res.render("adminpanel/dashboard", {});
+  res.render("adminpanel/dashboard");
 });
 
 router.get("/add-multiple-product", async (req, res, next) => {
@@ -382,8 +382,12 @@ router.get("/order-details", async (req, res, next) => {
     const orderDetails = await Order.findAll({
       where: { status: "pending" },
       include: [
-        { model: OrderProduct, required: false },
         { model: Customer, required: false },
+        {
+          model: OrderProduct,
+          required: false,
+          include: [{ model: Product, required: false }],
+        },
       ],
     });
     res.render("adminpanel/pending-orders", {
@@ -398,18 +402,6 @@ router.post("/add-category", async (req, res, next) => {
   try {
     const createdCategory = await Category.create({
       name: req.body.categoryName,
-    });
-    res.redirect("/admin-panel/add-category");
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-router.post("/add-subcategory", async (req, res, next) => {
-  try {
-    const createdSubCategory = await SubCategory.create({
-      name: req.body.subCategoryName,
-      categoryName: req.body.categoryName,
     });
     res.redirect("/admin-panel/add-category");
   } catch (error) {
