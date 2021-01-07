@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Customer Report</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="/css/app.min.css" rel="stylesheet" />
+    <link href="/css/adminpanel/add-single-product.css" rel="stylesheet" />
+    <script src="/js/adminpanel/app.min.css" defer></script>
+</head>
+
+<body>
+    <div id="page-container" class="fade show">
+        <%- include("./navigation-bar.ejs") %>
+        <h1 class="table-heading">INVENTORY REPORT</h1>
+        <p>Sorted by low stock to high</p>
+        <table>
+            <tr>
+                <th>ProductID</th>
+                <th>Product Name</th>
+                <th>Inventory On Hand</th>
+                <th>Minimum Stock</th>
+            </tr>
+            <tr>
+                <td>45</td>
+                <td>Zebronics Keyoard</td>
+                <td>100</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>51</td>
+                <td>Asus VivoBook 15</td>
+                <td>110</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>41</td>
+                <td>Hp 15s lite weight laptop</td>
+                <td>120</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td>Avita Pura i5 Laptop</td>
+                <td>149</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>Ryzen 5 hexa core processor</td>
+                <td>149</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>19</td>
+                <td>Acer CPU case</td>
+                <td>200</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>135</td>
+                <td>Seagate 1TB HardDisk</td>
+                <td>201</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>125</td>
+                <td>iMac Monitor</td>
+                <td>250</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>78</td>
+                <td>Dell Optical Mouse</td>
+                <td>270</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>98</td>
+                <td>Boat Speaker mini</td>
+                <td>270</td>
+                <td>50</td>
+            <tr>
+                <td>111</td>
+                <td>Hp Inkjet printer</td>
+                <td>380</td>
+                <td>50</td>
+            </tr>
+        </table>
+</body>
+
+</html>

@@ -26,6 +26,22 @@ router.get("/add-multiple-product", async (req, res, next) => {
   res.render("adminpanel/add-multiple-product", {});
 });
 
+router.get("/inventory-report", async (req, res, next) => {
+  res.render("adminpanel/inventory-reports", {});
+});
+
+router.get("/sales-report", async (req, res, next) => {
+  res.render("adminpanel/sales-reports", {});
+});
+
+router.get("/customer-report", async (req, res, next) => {
+  res.render("adminpanel/customer-reports", {});
+});
+
+router.get("/product-performance-report", async (req, res, next) => {
+  res.render("adminpanel/product-performance-reports", {});
+});
+
 router.post("/add-multiple-product", workBookUpload, async (req, res, next) => {
   try {
     const wb = xlsx.readFile("public/excel-files/" + req.file.filename);

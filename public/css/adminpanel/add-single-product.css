@@ -49,7 +49,7 @@ button[type*="submit"] {
 #add-key-btn:hover,
 button[type*="submit"]:hover {
   background-color: #175a5c;
-  color: white;
+  color: white; 
 }
 
 .list-category--container {
@@ -66,4 +66,34 @@ button[type*="submit"]:hover {
 
 .list-category--container div ol {
   padding: 0 20px;
+}
+
+table,
+tr,
+th,
+td {
+  border: 1px solid black;
+  padding: 5px 5px 3px 5px;
+}
+
+table {
+  width: 90vw;
+  margin: 5px auto;
+}
+
+.table-heading {
+  text-align: center;
+  margin-top: 40px;
+  font-weight: bold;
+}
+
+th {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+p {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-left: 50px;
 }
