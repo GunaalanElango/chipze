@@ -10,26 +10,67 @@
     <link href="/css/app.min.css" rel="stylesheet" />
     <link href="/css/adminpanel/add-single-product.css" rel="stylesheet" />
     <script src="/js/adminpanel/app.min.css" defer></script>
+    <link href="/css/adminpanel/app.min.css" rel="stylesheet" />
+    <link href="/css/app.min.css" rel="stylesheet" />
+    <script src="/js/adminpanel/app.min.js" defer></script>
 </head>
 
 <body>
     <div id="page-container" class="fade show">
         <%- include("./navigation-bar.ejs") %>
             <h1 class="table-heading">SALES REPORT</h1>
-            <table>
-                <tr>
-                    <th>Total Orders</th>
-                    <th>Total Amount</th>
-                    <th>Average Sales Per Order</th>
-                    <th>Year</th>
-                </tr>
-                <tr>
-                    <td>57</td>
-                    <td>5,45,500</td>
-                    <td>41.20</td>
-                    <td>2020</td>
-                </tr>
-            </table>
+            <form action="/admin-panel/sales-report" method="POST">
+                <div class="form-group">
+                    <label for="">FROM: </label>
+                    <input type="date" name="fromDate">
+                </div>
+                <div class="form-group">
+                    <label for="">TO: </label>
+                    <input type="date" name="toDate">
+                </div>
+                <div class="form-group">
+                    <label for="">Category: </label>
+                    <select name="" id="">
+                        <option value="laptop">External Hard disk</option>
+                    </select>
+                </div>
+                <input type="submit" style="padding: 10px 10px;">
+            </form>
+            <div id="content" style="margin: 10px 10px;">
+
+                <div class="col-xl-10" style="margin: 10px auto;">
+
+                    <div class="panel panel-inverse">
+
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Pending Orders</h4>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="result-list">
+                                <% for (let product of products) { %>
+                                    <li style="padding: 10px;">
+                                        <a href="#" class="result-image"
+                                            style="background-image: url('<%= product.indexImage %>');"></a>
+                                        <div class="result-info">
+                                            <h4 class="title">
+                                                <b>PRODUCT ID : </b> #<%= product.id %>
+                                            </h4>
+                                            <h4 class="title">
+                                                <b>SOLD : </b>
+                                                <%= product.stocks[0].sold %>
+                                            </h4>
+                                            <p class="location" style="font-size: 1rem;"><b>NAME : </b>
+                                                <%= product.name %>
+                                            </p>
+                                        </div>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
 </body>
 
 </html>

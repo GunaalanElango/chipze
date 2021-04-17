@@ -10,6 +10,10 @@ const Order = sequelize.define("order", {
     type: Sequelize.STRING(100),
     allowNull: true,
   },
+  date: {
+    type: Sequelize.STRING(100),
+    allowNull: true,
+  }
 });
 
 const OrderProduct = sequelize.define("order_product", {

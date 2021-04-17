@@ -14,6 +14,7 @@ const { ProductKeyFeature } = require("../models/product-key-feature");
 const { Category } = require("../models/category");
 const { Order, OrderProduct } = require("../models/order");
 const { Customer } = require("../models/customer");
+const { Op } = require("sequelize");
 const path = require("path");
 const chalk = require("chalk");
 let PRODUCT_ID = 0;
@@ -31,7 +32,25 @@ router.get("/inventory-report", async (req, res, next) => {
 });
 
 router.get("/sales-report", async (req, res, next) => {
-  res.render("adminpanel/sales-reports", {});
+  res.render("adminpanel/sales-reports", { products: "" });
+});
+
+router.post("/sales-report", async (req, res, next) => {
+  const { fromDate, toDate } = req.body;
+  const orders = await Order.findAll({
+    where: { date: { [Op.between]: [fromDate, toDate] } },
+    include: [
+      {
+        model: OrderProduct,
+        required: false,
+      },
+    ],
+  });
+  const products = await Product.findAll({
+    where: { categoryName: "storage" },
+    include: [{ model: Stock, required: false }],
+  });
+  res.render("adminpanel/sales-reports", { products });
 });
 
 router.get("/customer-report", async (req, res, next) => {

@@ -77,13 +77,13 @@ td {
 }
 
 table {
-  width: 90vw;
+  width: 73vw;
   margin: 5px auto;
 }
 
 .table-heading {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 20px;
   font-weight: bold;
 }
 
@@ -96,4 +96,8 @@ p {
   font-size: 1.5rem;
   font-weight: 500;
   margin-left: 50px;
+}
+
+form {
+  width: 50vw;
 }

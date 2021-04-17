@@ -309,6 +309,7 @@ router.post("/checkout-complete", async (req, res, next) => {
     }
     const createOrder = await Order.create({
       customerId: req.session.customerId,
+      date: moment().format("L")
     });
     let totalOrderPrice = 0;
     for (let cart of cartProducts) {
